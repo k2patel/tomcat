@@ -31,7 +31,7 @@
 %global jspspec 2.2
 %global major_version 7
 %global minor_version 0
-%global micro_version 29
+%global micro_version 32
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.0
 %global elspec 2.2
@@ -660,6 +660,10 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
+* Fri Oct 19 2012 Ivan Afonichev <ivan.afonichev@gmail.com> 0:7.0.32-1
+- Updated to 7.0.32
+- Resolves: rhbz 863307 read CATALINA_PID from env on tomcat-sysd
+
 * Thu Jul 26 2012 Ivan Afonichev <ivan.afonichev@gmail.com> 0:7.0.29-1
 - Updated to 7.0.29
 

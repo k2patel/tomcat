@@ -61,7 +61,7 @@ function parseOptions() {
 # See how we were called.
 function start() {
     # fix permissions on the log and pid files
-    export CATALINA_PID="/var/run/${NAME}.pid"
+    export CATALINA_PID="${CATALINA_PID:-/var/run/${NAME}.pid}"
     touch $CATALINA_PID 2>&1 
     if [ "$?" -eq "0" ]; then
       chown ${TOMCAT_USER}:${TOMCAT_USER} $CATALINA_PID
