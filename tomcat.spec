@@ -31,7 +31,7 @@
 %global jspspec 2.2
 %global major_version 7
 %global minor_version 0
-%global micro_version 27
+%global micro_version 33
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.0
 %global elspec 2.2
@@ -54,7 +54,7 @@
 Name:          tomcat
 Epoch:         0
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       2%{?dist}
+Release:       1%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -182,6 +182,8 @@ Summary: Apache Tomcat JSP API implementation classes
 Provides: jsp = %{jspspec}
 Provides: jsp22
 Requires: %{name}-servlet-%{servletspec}-api = %{epoch}:%{version}-%{release}
+Requires(post): chkconfig
+Requires(postun): chkconfig
 
 %description jsp-%{jspspec}-api
 Apache Tomcat JSP API implementation classes.
@@ -208,6 +210,8 @@ Summary: Apache Tomcat Servlet API implementation classes
 Provides: servlet = %{servletspec}
 Provides: servlet6
 Provides: servlet3
+Requires(post): chkconfig
+Requires(postun): chkconfig
 
 %description servlet-%{servletspec}-api
 Apache Tomcat Servlet API implementation classes.
@@ -217,6 +221,8 @@ Group: Development/Libraries
 Summary: Expression Language v1.0 API
 Provides: el_1_0_api = %{epoch}:%{version}-%{release}
 Provides: el_api = %{elspec}
+Requires(post): chkconfig
+Requires(postun): chkconfig
 
 %description el-%{elspec}-api
 Expression Language 1.0.
@@ -273,7 +279,9 @@ export OPT_JAR_LIST="xalan-j2-serializer"
 
     # remove some jars that we'll replace with symlinks later
    %{__rm} output/build/bin/commons-daemon.jar \
-           output/build/lib/ecj.jar
+           output/build/lib/ecj.jar \
+           output/build/lib/apache-commons-dbcp.jar
+
     # remove the cruft we created
    %{__rm} output/build/bin/tomcat-native.tar.gz
 pushd output/dist/src/webapps/docs/appdev/sample/src
@@ -550,8 +558,9 @@ fi
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %attr(0755,root,tomcat) %dir %{basedir}
 %attr(0755,root,tomcat) %dir %{confdir}
-%defattr(0664,root,tomcat,0770)
+%defattr(0664,tomcat,root,0770)
 %attr(0770,tomcat,root) %dir %{logdir}
+%defattr(0664,root,tomcat,0770)
 %attr(0660,tomcat,tomcat) %{logdir}/catalina.out
 %attr(0770,root,tomcat) %dir %{cachedir}
 %attr(0770,root,tomcat) %dir %{tempdir}
@@ -643,6 +652,13 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
+* Thu Dec 6 2012 Ivan Afonichev <ivan.afonichev@gmail.com> 0:7.0.33-1
+- Updated to 7.0.33
+- Resolves: rhbz 873620 need chkconfig for update-alternatives
+- Resolves: rhbz 873707 fix several security issues
+- Resolves: rhbz 883806 refix logdir ownership
+- Resolves: rhbz 820119 Remove bundled apache-commons-dbcp
+
 * Tue Apr 10 2012 Ivan Afonichev <ivan.afonichev@gmail.com> 0:7.0.27-2
 - Fixed tomcat-native download
 
