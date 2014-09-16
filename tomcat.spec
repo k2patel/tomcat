@@ -31,7 +31,7 @@
 %global jspspec 2.2
 %global major_version 7
 %global minor_version 0
-%global micro_version 47
+%global micro_version 52
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.0
 %global elspec 2.2
@@ -263,6 +263,7 @@ export OPT_JAR_LIST="xalan-j2-serializer"
       -Dno.build.dbcp=true \
       -Dversion="%{version}" \
       -Dversion.build="%{micro_version}" \
+      -Djava.7.home=%{java_home} \
       deploy dist-prepare dist-source javadoc
 
     # remove some jars that we'll replace with symlinks later
@@ -321,6 +322,7 @@ zip -u output/build/bin/tomcat-juli.jar META-INF/MANIFEST.MF
 %{__install} -d -m 0775 ${RPM_BUILD_ROOT}%{logdir}
 /bin/touch ${RPM_BUILD_ROOT}%{logdir}/catalina.out
 %{__install} -d -m 0775 ${RPM_BUILD_ROOT}%{_localstatedir}/run
+%{__install} -d -m 0775 ${RPM_BUILD_ROOT}%{_localstatedir}/lib/tomcats
 /bin/touch ${RPM_BUILD_ROOT}%{_localstatedir}/run/%{name}.pid
 /bin/echo "%{name}-%{major_version}.%{minor_version}.%{micro_version} RPM installed" >> ${RPM_BUILD_ROOT}%{logdir}/catalina.out
 %{__install} -d -m 0775 ${RPM_BUILD_ROOT}%{homedir}
@@ -376,6 +378,13 @@ popd
     ${RPM_BUILD_ROOT}%{_libexecdir}/%{name}/server
 %{__install} -m 0644 %{SOURCE32} \
     ${RPM_BUILD_ROOT}%{_unitdir}/%{name}@.service
+
+# Substitute libnames in catalina-tasks.xml
+sed -i \
+   "s,el-api.jar,%{name}-el-%{elspec}-api.jar,;
+    s,servlet-api.jar,%{name}-servlet-%{servletspec}-api.jar,;
+    s,jsp-api.jar,%{name}-jsp-%{jspspec}-api.jar,;" \
+    ${RPM_BUILD_ROOT}%{bindir}/catalina-tasks.xml
 
 # create jsp and servlet API symlinks
 pushd ${RPM_BUILD_ROOT}%{_javadir}
@@ -487,6 +496,9 @@ done
 # replace temporary copy with link
 %{__ln_s} -f %{bindir}/tomcat-juli.jar ${RPM_BUILD_ROOT}%{libdir}/
 
+%{__cp} -a tomcat-jdbc.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-tomcat-jdbc.pom
+%add_maven_depmap JPP.%{name}-tomcat-jdbc.pom %{name}/tomcat-jdbc.jar
+
 mkdir -p ${RPM_BUILD_ROOT}%{_prefix}/lib/tmpfiles.d
 cat > ${RPM_BUILD_ROOT}%{_prefix}/lib/tmpfiles.d/%{name}.conf <<EOF
 f %{_localstatedir}/run/%{name}.pid 0644 tomcat tomcat -
@@ -556,6 +568,7 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}.service
 %attr(0644,root,root) %{_unitdir}/%{name}@.service
 %attr(0755,root,root) %dir %{_libexecdir}/%{name}
+%attr(0755,root,root) %dir %{_localstatedir}/lib/tomcats
 %attr(0755,root,root) %{_libexecdir}/%{name}/preamble
 %attr(0755,root,root) %{_libexecdir}/%{name}/server
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
@@ -627,6 +640,7 @@ fi
 %{_mavenpomdir}/JPP.%{name}-tomcat-juli.pom
 %{_mavenpomdir}/JPP.%{name}-tomcat-coyote.pom
 %{_mavenpomdir}/JPP.%{name}-tomcat-util.pom
+%{_mavenpomdir}/JPP.%{name}-tomcat-jdbc.pom
 
 %exclude %{libdir}/%{name}-el-%{elspec}-api.jar
 
@@ -661,6 +675,13 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
+* Thu Sep 16 2014 Ivan Afonichev <ivan.afonichev@gmail.com> 0:7.0.52-1
+- Updated to 7.0.52
+- Create and own %{_localstatedir}/lib/tomcats, resolves: rhbz#1026741
+- Add pom for tomcat-jdbc, resolves: rhbz#1011003
+- Substitute libnames in catalina-tasks.xml, resolves: rhbz#1126439
+- Use CATALINA_OPTS only on start, resolves: rhbz#1051194
+
 * Sun Nov 03 2013 Ivan Afonichev <ivan.afonichev@gmail.com> 0:7.0.47-1
 - Updated to 7.0.47
 - Fix java.security.policy
