@@ -54,7 +54,7 @@
 Name:          tomcat
 Epoch:         0
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -675,6 +675,9 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
+* Fri Oct 17 2014 Ivan Afonichev <ivan.afonichev@gmail.com> 0:7.0.52-2
+- Fix options handling, resolves: rhbz#1147105
+
 * Thu Sep 16 2014 Ivan Afonichev <ivan.afonichev@gmail.com> 0:7.0.52-1
 - Updated to 7.0.52
 - Create and own %{_localstatedir}/lib/tomcats, resolves: rhbz#1026741
