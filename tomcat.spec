@@ -31,7 +31,7 @@
 %global jspspec 2.2
 %global major_version 7
 %global minor_version 0
-%global micro_version 57
+%global micro_version 59
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.0
 %global elspec 2.2
@@ -681,6 +681,9 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
+* Sat Feb 14 2015 Ivan Afonichev <ivan.afonichev@gmail.com> 0:7.0.59-1
+- Updated to 7.0.59
+
 * Sun Nov 16 2014 Ivan Afonichev <ivan.afonichev@gmail.com> 0:7.0.57-1
 - Updated to 7.0.57
 - Substitute libnames in catalina-tasks.xml, resolves: rhbz#1126439
