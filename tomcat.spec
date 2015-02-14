@@ -31,7 +31,7 @@
 %global jspspec 2.2
 %global major_version 7
 %global minor_version 0
-%global micro_version 54
+%global micro_version 57
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.0
 %global elspec 2.2
@@ -54,7 +54,7 @@
 Name:          tomcat
 Epoch:         0
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       3%{?dist}
+Release:       1%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -250,6 +250,7 @@ export OPT_JAR_LIST="xalan-j2-serializer"
    touch HACK
    %{__mkdir_p} HACKDIR
    touch HACKDIR/build.xml
+   touch HACKDIR/LICENSE
    # who needs a build.properties file anyway
    %{ant} -Dbase.path="." \
       -Dbuild.compiler="modern" \
@@ -261,6 +262,7 @@ export OPT_JAR_LIST="xalan-j2-serializer"
       -Dtomcat-dbcp.jar="$(build-classpath apache-commons-dbcp)" \
       -Dtomcat-native.tar.gz="HACK" \
       -Dtomcat-native.home="." \
+      -Dtomcat-native.win.path="HACKDIR" \
       -Dcommons-daemon.native.win.mgr.exe="HACK" \
       -Dnsis.exe="HACK" \
       -Djaxrpc-lib.jar="$(build-classpath jaxrpc)" \
@@ -384,6 +386,13 @@ popd
 %{__install} -m 0644 %{SOURCE32} \
     ${RPM_BUILD_ROOT}%{_unitdir}/%{name}@.service
 
+# Substitute libnames in catalina-tasks.xml
+sed -i \
+   "s,el-api.jar,%{name}-el-%{elspec}-api.jar,;
+    s,servlet-api.jar,%{name}-servlet-%{servletspec}-api.jar,;
+    s,jsp-api.jar,%{name}-jsp-%{jspspec}-api.jar,;" \
+    ${RPM_BUILD_ROOT}%{bindir}/catalina-tasks.xml
+
 # create jsp and servlet API symlinks
 pushd ${RPM_BUILD_ROOT}%{_javadir}
    %{__mv} %{name}/jsp-api.jar %{name}-jsp-%{jspspec}-api.jar
@@ -493,6 +502,9 @@ done
 
 %{__cp} -a tomcat-util.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-tomcat-util.pom
 %add_maven_depmap JPP.%{name}-tomcat-util.pom %{name}/tomcat-util.jar
+
+%{__cp} -a tomcat-jdbc.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-tomcat-jdbc.pom
+%add_maven_depmap JPP.%{name}-tomcat-jdbc.pom %{name}/tomcat-jdbc.jar
 
 %{__cp} -a tomcat-jdbc.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-tomcat-jdbc.pom
 %add_maven_depmap JPP.%{name}-tomcat-jdbc.pom %{name}/tomcat-jdbc.jar
@@ -669,6 +681,11 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
+* Sun Nov 16 2014 Ivan Afonichev <ivan.afonichev@gmail.com> 0:7.0.57-1
+- Updated to 7.0.57
+- Substitute libnames in catalina-tasks.xml, resolves: rhbz#1126439
+- Use CATALINA_OPTS only on start, resolves: rhbz#1051194
+
 * Mon Jun 16 2014 Michal Srb <msrb@redhat.com> - 0:7.0.54-3
 - jsp-api requires el-api
 
