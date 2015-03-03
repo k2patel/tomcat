@@ -52,9 +52,9 @@
 %global _systemddir /lib/systemd/system
 
 Name:          tomcat
-Epoch:         0
+Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -681,11 +681,25 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
-* Sat Feb 14 2015 Ivan Afonichev <ivan.afonichev@gmail.com> 0:7.0.59-1
+* Tue Mar 03 2015 Stephen Gallagher <sgallagh@redhat.com> 1:7.0.59-2
+- Revert to Tomcat 7.0 in Fedora 22
+
+- Sat Feb 14 2015 Ivan Afonichev <ivan.afonichev@gmail.com> 0:7.0.59-1
 - Updated to 7.0.59
 
-* Sun Nov 16 2014 Ivan Afonichev <ivan.afonichev@gmail.com> 0:7.0.57-1
+- Sun Nov 16 2014 Ivan Afonichev <ivan.afonichev@gmail.com> 0:7.0.57-1
 - Updated to 7.0.57
+- Substitute libnames in catalina-tasks.xml, resolves: rhbz#1126439
+- Use CATALINA_OPTS only on start, resolves: rhbz#1051194
+
+* Mon Feb 16 2015 Michal Srb <msrb@redhat.com> - 0:8.0.18-2
+- Install POM files for org.apache.tomcat:{tomcat-jni,tomcat-util-scan}
+
+* Sun Feb 15 2015 Ivan Afonichev <ivan.afonichev@gmail.com> 0:8.0.18-1
+- Updated to 8.0.18
+
+* Sat Sep 20 2014 Ivan Afonichev <ivan.afonichev@gmail.com> 0:8.0.12-1
+- Updated to 8.0.12
 - Substitute libnames in catalina-tasks.xml, resolves: rhbz#1126439
 - Use CATALINA_OPTS only on start, resolves: rhbz#1051194
 
