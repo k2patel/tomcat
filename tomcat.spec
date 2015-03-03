@@ -28,13 +28,13 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-%global jspspec 2.3
-%global major_version 8
+%global jspspec 2.2
+%global major_version 7
 %global minor_version 0
-%global micro_version 18
+%global micro_version 59
 %global packdname apache-tomcat-%{version}-src
-%global servletspec 3.1
-%global elspec 3.0
+%global servletspec 3.0
+%global elspec 2.2
 %global tcuid 91
 
 # FHS 2.3 compliant tree structure - http://www.pathname.com/fhs/2.3/
@@ -54,7 +54,7 @@
 Name:          tomcat
 Epoch:         0
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       2%{?dist}
+Release:       1%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -88,7 +88,7 @@ Patch1:        %{name}-%{major_version}.%{minor_version}-tomcat-users-webapp.pat
 BuildArch:     noarch
 
 BuildRequires: ant
-BuildRequires: ecj >= 1:4.4.0
+BuildRequires: ecj >= 1:4.2.1
 BuildRequires: findutils
 BuildRequires: apache-commons-collections
 BuildRequires: apache-commons-daemon
@@ -168,8 +168,6 @@ Group: Development/Libraries
 Summary: Apache Tomcat JSP API implementation classes
 Provides: jsp = %{jspspec}
 Provides: jsp22
-Provides: %{name}-jsp-2.2-api
-Obsoletes: %{name}-jsp-2.2-api
 Requires: %{name}-servlet-%{servletspec}-api = %{epoch}:%{version}-%{release}
 Requires: %{name}-el-%{elspec}-api = %{epoch}:%{version}-%{release}
 Requires(post): chkconfig
@@ -207,8 +205,6 @@ Summary: Apache Tomcat Servlet API implementation classes
 Provides: servlet = %{servletspec}
 Provides: servlet6
 Provides: servlet3
-Provides: %{name}-servlet-3.0-api
-Obsoletes: %{name}-servlet-3.0-api
 Requires(post): chkconfig
 Requires(postun): chkconfig
 
@@ -217,16 +213,14 @@ Apache Tomcat Servlet API implementation classes.
 
 %package el-%{elspec}-api
 Group: Development/Libraries
-Summary: Expression Language v%{elspec} API
+Summary: Expression Language v1.0 API
 Provides: el_1_0_api = %{epoch}:%{version}-%{release}
 Provides: el_api = %{elspec}
-Provides: %{name}-el-2.2-api
-Obsoletes: %{name}-el-2.2-api
 Requires(post): chkconfig
 Requires(postun): chkconfig
 
 %description el-%{elspec}-api
-Expression Language %{elspec}.
+Expression Language 1.0.
 
 %package webapps
 Group: Applications/Internet
@@ -257,7 +251,6 @@ export OPT_JAR_LIST="xalan-j2-serializer"
    %{__mkdir_p} HACKDIR
    touch HACKDIR/build.xml
    touch HACKDIR/LICENSE
-
    # who needs a build.properties file anyway
    %{ant} -Dbase.path="." \
       -Dbuild.compiler="modern" \
@@ -266,6 +259,7 @@ export OPT_JAR_LIST="xalan-j2-serializer"
       -Dcommons-daemon.native.src.tgz="HACK" \
       -Djasper-jdt.jar="$(build-classpath ecj)" \
       -Djdt.jar="$(build-classpath ecj)" \
+      -Dtomcat-dbcp.jar="$(build-classpath apache-commons-dbcp)" \
       -Dtomcat-native.tar.gz="HACK" \
       -Dtomcat-native.home="." \
       -Dtomcat-native.win.path="HACKDIR" \
@@ -283,7 +277,8 @@ export OPT_JAR_LIST="xalan-j2-serializer"
 
     # remove some jars that we'll replace with symlinks later
    %{__rm} output/build/bin/commons-daemon.jar \
-           output/build/lib/ecj.jar
+           output/build/lib/ecj.jar \
+           output/build/lib/apache-commons-dbcp.jar
 
     # remove the cruft we created
    %{__rm} output/build/bin/tomcat-native.tar.gz
@@ -471,7 +466,7 @@ for pom in *.pom; do
 done
 
 # we won't install dbcp, juli-adapters and juli-extras pom files
-for libname in annotations-api catalina jasper-el jasper catalina-ha util-scan jni; do
+for libname in annotations-api catalina jasper-el jasper catalina-ha; do
     %{__cp} -a %{name}-$libname.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-$libname.pom
     %add_maven_depmap JPP.%{name}-$libname.pom %{name}/$libname.jar -f "tomcat-lib"
 done
@@ -481,7 +476,7 @@ done
 %add_maven_depmap JPP-tomcat-jsp-api.pom tomcat-jsp-api.jar -f "tomcat-jsp-api" -a "org.eclipse.jetty.orbit:javax.servlet.jsp"
 
 %{__cp} -a tomcat-el-api.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP-tomcat-el-api.pom
-%add_maven_depmap JPP-tomcat-el-api.pom tomcat-el-api.jar -f "tomcat-el-api" -a "org.eclipse.jetty.orbit:javax.el,javax.el:el-api"
+%add_maven_depmap JPP-tomcat-el-api.pom tomcat-el-api.jar -f "tomcat-el-api" -a "org.eclipse.jetty.orbit:javax.el"
 
 %{__cp} -a tomcat-servlet-api.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP-tomcat-servlet-api.pom
 # Generate a depmap fragment javax.servlet:servlet-api pointing to
@@ -507,6 +502,9 @@ done
 
 %{__cp} -a tomcat-util.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-tomcat-util.pom
 %add_maven_depmap JPP.%{name}-tomcat-util.pom %{name}/tomcat-util.jar
+
+%{__cp} -a tomcat-jdbc.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-tomcat-jdbc.pom
+%add_maven_depmap JPP.%{name}-tomcat-jdbc.pom %{name}/tomcat-jdbc.jar
 
 %{__cp} -a tomcat-jdbc.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-tomcat-jdbc.pom
 %add_maven_depmap JPP.%{name}-tomcat-jdbc.pom %{name}/tomcat-jdbc.jar
@@ -683,14 +681,11 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
-* Mon Feb 16 2015 Michal Srb <msrb@redhat.com> - 0:8.0.18-2
-- Install POM files for org.apache.tomcat:{tomcat-jni,tomcat-util-scan}
+* Sat Feb 14 2015 Ivan Afonichev <ivan.afonichev@gmail.com> 0:7.0.59-1
+- Updated to 7.0.59
 
-* Sun Feb 15 2015 Ivan Afonichev <ivan.afonichev@gmail.com> 0:8.0.18-1
-- Updated to 8.0.18
-
-* Sat Sep 20 2014 Ivan Afonichev <ivan.afonichev@gmail.com> 0:8.0.12-1
-- Updated to 8.0.12
+* Sun Nov 16 2014 Ivan Afonichev <ivan.afonichev@gmail.com> 0:7.0.57-1
+- Updated to 7.0.57
 - Substitute libnames in catalina-tasks.xml, resolves: rhbz#1126439
 - Use CATALINA_OPTS only on start, resolves: rhbz#1051194
 
