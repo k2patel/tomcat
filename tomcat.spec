@@ -54,7 +54,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       2%{?dist}
+Release:       3%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -214,7 +214,6 @@ Apache Tomcat Servlet API implementation classes.
 %package el-%{elspec}-api
 Group: Development/Libraries
 Summary: Expression Language v1.0 API
-Provides: el_1_0_api = %{epoch}:%{version}-%{release}
 Provides: el_api = %{elspec}
 Requires(post): chkconfig
 Requires(postun): chkconfig
@@ -681,6 +680,9 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
+* Wed Mar 4 2015 Alexander Kurtakov <akurtako@redhat.com> 1:7.0.59-3
+- Drop epoch bumped el_1_0_api. Having it with epoch 1 will win over all other packages potentially providing it.
+
 * Tue Mar 03 2015 Stephen Gallagher <sgallagh@redhat.com> 1:7.0.59-2
 - Revert to Tomcat 7.0 in Fedora 22
 
