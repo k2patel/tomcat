@@ -54,7 +54,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       3%{?dist}
+Release:       4%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -505,9 +505,6 @@ done
 %{__cp} -a tomcat-jdbc.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-tomcat-jdbc.pom
 %add_maven_depmap JPP.%{name}-tomcat-jdbc.pom %{name}/tomcat-jdbc.jar
 
-%{__cp} -a tomcat-jdbc.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-tomcat-jdbc.pom
-%add_maven_depmap JPP.%{name}-tomcat-jdbc.pom %{name}/tomcat-jdbc.jar
-
 mkdir -p ${RPM_BUILD_ROOT}%{_prefix}/lib/tmpfiles.d
 cat > ${RPM_BUILD_ROOT}%{_prefix}/lib/tmpfiles.d/%{name}.conf <<EOF
 f %{_localstatedir}/run/%{name}.pid 0644 tomcat tomcat -
@@ -680,6 +677,10 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
+* Thu Mar 19 2015 Mikolaj Izdebski <mizdebsk@redhat.com> - 1:7.0.59-4
+- Remove duplicate Maven metadata
+- Resolves: rhbz#1203652
+
 * Wed Mar 4 2015 Alexander Kurtakov <akurtako@redhat.com> 1:7.0.59-3
 - Drop epoch bumped el_1_0_api. Having it with epoch 1 will win over all other packages potentially providing it.
 
