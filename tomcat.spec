@@ -54,7 +54,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       2%{?dist}
+Release:       3%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -506,7 +506,7 @@ EOF
 # add the tomcat user and group
 %{_sbindir}/groupadd -g %{tcuid} -r tomcat 2>/dev/null || :
 %{_sbindir}/useradd -c "Apache Tomcat" -u %{tcuid} -g tomcat \
-    -s /bin/nologin -r -d %{homedir} tomcat 2>/dev/null || :
+    -s /sbin/nologin -r -d %{homedir} tomcat 2>/dev/null || :
 
 %post
 # install but don't activate
@@ -660,6 +660,9 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
+* Sat Feb 6 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:7.0.67-3
+- Fix tomcat user shell, resolves rhbz#1302718
+
 * Fri Feb 5 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:7.0.67-2
 - Fix non-primary service files
 
