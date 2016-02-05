@@ -54,7 +54,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -660,6 +660,9 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
+* Fri Feb 5 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:7.0.67-2
+- Fix non-primary service files
+
 * Thu Feb 4 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:7.0.67-1
 - Updated to 7.0.67
 - Remove log4j support. It has never been working actually. See rhbz#1236297
