@@ -643,6 +643,7 @@ fi
 - Resolves: rhbz#1314177 Tomcat init script reports wrong status when one instance of several is stopped
 - Resolves: rhbz#1312280 Unable to overwrite the TOMCAT_SCRIPT variable
 - Resolves: rhbz#1104708 Tomcat init script does not respect setting of CATALINA_PID in /etc/sysconfig/tomcat
+- Resolves: rhbz#1104704 /usr/sbin/tomcat overrides settings specified in /etc/sysconfig/${NAME}
 
 * Fri Nov 13 2015 Coty Sutherland <csutherl@redhat.com> 0:7.0.65-1
 - Updated to 7.0.65
