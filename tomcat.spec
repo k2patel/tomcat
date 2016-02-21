@@ -31,7 +31,7 @@
 %global jspspec 2.2
 %global major_version 7
 %global minor_version 0
-%global micro_version 67
+%global micro_version 68
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.0
 %global elspec 2.2
@@ -54,7 +54,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       3%{?dist}
+Release:       1%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -405,9 +405,9 @@ popd
 
 pushd ${RPM_BUILD_ROOT}%{libdir}
     # symlink JSP and servlet API jars
-    %{__ln_s} ../%{name}-jsp-%{jspspec}-api.jar .
-    %{__ln_s} ../%{name}-servlet-%{servletspec}-api.jar .
-    %{__ln_s} ../%{name}-el-%{elspec}-api.jar .
+    %{__ln_s} ../../java/%{name}-jsp-%{jspspec}-api.jar .
+    %{__ln_s} ../../java/%{name}-servlet-%{servletspec}-api.jar .
+    %{__ln_s} ../../java/%{name}-el-%{elspec}-api.jar .
     %{__ln_s} $(build-classpath apache-commons-collections) commons-collections.jar
     %{__ln_s} $(build-classpath apache-commons-dbcp) commons-dbcp.jar
     %{__ln_s} $(build-classpath apache-commons-pool) commons-pool.jar
@@ -660,6 +660,10 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
+* Sun Feb 21 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:7.0.68-1
+- Updated to 7.0.68
+- Fix symlinks from $CATALINA_HOME/lib perspective, resolves: rhbz#1308685
+
 * Sat Feb 6 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:7.0.67-3
 - Fix tomcat user shell, resolves rhbz#1302718
 
