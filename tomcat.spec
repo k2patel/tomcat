@@ -54,7 +54,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -660,6 +660,10 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
+* Thu Feb 25 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:7.0.68-2
+- Load sysconfig from tomcat.conf, resolves: rhbz#1311771, rhbz#1311905
+- Set default javax.sql.DataSource factory to apache commons one, resolves rhbz#1214381
+
 * Sun Feb 21 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:7.0.68-1
 - Updated to 7.0.68
 - Fix symlinks from $CATALINA_HOME/lib perspective, resolves: rhbz#1308685
