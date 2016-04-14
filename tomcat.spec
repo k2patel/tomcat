@@ -53,7 +53,7 @@
 Name:          tomcat
 Epoch:         0
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -542,8 +542,8 @@ fi
 %defattr(0664,tomcat,root,0770)
 %attr(0770,tomcat,root) %dir %{logdir}
 %defattr(0664,root,tomcat,0770)
-%attr(0660,tomcat,tomcat) %{logdir}/catalina.out
-%attr(0644,tomcat,tomcat) %{_localstatedir}/run/%{name}.pid
+%attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
+%attr(0644,tomcat,tomcat) %verify(not size md5 mtime) %{_localstatedir}/run/%{name}.pid
 %attr(0770,root,tomcat) %dir %{cachedir}
 %attr(0770,root,tomcat) %dir %{tempdir}
 %attr(0770,root,tomcat) %dir %{workdir}
@@ -639,6 +639,7 @@ fi
 * Fri Aug 05 2016 Coty Sutherland <csutherl@redhat.com> 0:7.0.65-2
 - Resolves: rhbz#1352120 The javadoc package is useless; it contains one index.html
 - Resolves: rhbz#1347838 The security manager doesn't work correctly (JSPs cannot be compiled)
+- Resolves: rhbz#1327327 rpm -V tomcat fails on /var/log/tomcat/catalina.out
 
 * Fri Nov 13 2015 Coty Sutherland <csutherl@redhat.com> 0:7.0.65-1
 - Updated to 7.0.65
