@@ -31,7 +31,7 @@
 %global jspspec 2.2
 %global major_version 7
 %global minor_version 0
-%global micro_version 65
+%global micro_version 70
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.0
 %global elspec 2.2
@@ -81,9 +81,9 @@ Source16:      %{name}-%{major_version}.%{minor_version}-jsvc.wrapper
 Patch0:        %{name}-%{major_version}.%{minor_version}-bootstrap-MANIFEST.MF.patch
 Patch1:        %{name}-%{major_version}.%{minor_version}-tomcat-users-webapp.patch
 # Adding patch to remove java 1.8 compiler options due to outdated ecj version in el6
-Patch2:        %{name}-7.0.57-CompilerOptionsV8.patch
+Patch2:        %{name}-7.0.70-CompilerOptionsV8.patch
 # Adding patch to remove unsupport ant tasks/attributes
-Patch3:        %{name}-7.0.65-build.patch
+Patch3:        %{name}-7.0.70-build.patch
 Patch4:        %{name}-7.0-catalina-policy.patch
 
 BuildArch:     noarch
@@ -638,7 +638,7 @@ fi
 %{_sbindir}/%{name}-jsvc
 
 %changelog
-* Fri Aug 05 2016 Coty Sutherland <csutherl@redhat.com> 0:7.0.65-2
+* Fri Aug 05 2016 Coty Sutherland <csutherl@redhat.com> 0:7.0.70-1
 - Resolves: rhbz#1352120 The javadoc package is useless; it contains one index.html
 - Resolves: rhbz#1347838 The security manager doesn't work correctly (JSPs cannot be compiled)
 - Resolves: rhbz#1327327 rpm -V tomcat fails on /var/log/tomcat/catalina.out
@@ -649,6 +649,7 @@ fi
 - Resolves: rhbz#1364067 The tomcat-tool-wrapper script is broken
 - Resolves: rhbz#1364068 The command tomcat-digest doesn't work
 - Resolves: rhbz#1311499 Updating package causes tomcat to not start on boot
+- Resolves: rhbz#1352009 tomcat: multiple security vulnerabilities (updates to 7.0.70)
 
 * Fri Nov 13 2015 Coty Sutherland <csutherl@redhat.com> 0:7.0.65-1
 - Updated to 7.0.65
