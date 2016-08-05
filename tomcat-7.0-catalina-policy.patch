@@ -1,6 +1,6 @@
---- conf/catalina.policy	2016-07-07 16:31:44.473000159 -0400
-+++ conf/catalina.policy	2016-07-07 16:32:14.349000359 -0400
-@@ -51,6 +51,36 @@
+--- conf/catalina.policy.orig	2016-08-05 11:13:17.192398668 -0400
++++ conf/catalina.policy	2016-08-05 11:13:40.855396127 -0400
+@@ -51,6 +51,34 @@
  };
  
  
@@ -31,5 +31,7 @@
 +        permission java.security.AllPermission;
 +};
 +
++
  // ========== CATALINA CODE PERMISSIONS =======================================
+ 
  
