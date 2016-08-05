@@ -645,6 +645,7 @@ fi
 - Resolves: rhbz#1104708 Tomcat init script does not respect setting of CATALINA_PID in /etc/sysconfig/tomcat
 - Resolves: rhbz#1104704 /usr/sbin/tomcat overrides settings specified in /etc/sysconfig/${NAME}
 - Resolves: rhbz#1364067 The tomcat-tool-wrapper script is broken
+- Resolves: rhbz#1364068 The command tomcat-digest doesn't work
 
 * Fri Nov 13 2015 Coty Sutherland <csutherl@redhat.com> 0:7.0.65-1
 - Updated to 7.0.65
