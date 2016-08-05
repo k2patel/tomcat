@@ -289,7 +289,7 @@ case "$1" in
                RETVAL="1"
             fi
         else
-            pid="$(/usr/bin/pgrep -d , -u ${TOMCAT_USER} -G ${TOMCAT_USER} -f \"${NAME}[ $]\")"
+            pid="$(/usr/bin/pgrep -d , -u ${TOMCAT_USER} -G ${TOMCAT_USER} -f "${NAME}[ $]")"
             if [ -z "$pid" ]; then
 #               status ${NAME}
 #               RETVAL="$?"
@@ -301,7 +301,7 @@ case "$1" in
             fi
         fi
          if [ -f /var/lock/subsys/${NAME} ]; then
-            pid="$(/usr/bin/pgrep -d , -u ${TOMCAT_USER} -G ${TOMCAT_USER} -f \"${NAME}[ $]\")"
+            pid="$(/usr/bin/pgrep -d , -u ${TOMCAT_USER} -G ${TOMCAT_USER} -f "${NAME}[ $]")"
 # The lockfile exists but the process is not running
             if [ -z "$pid" ]; then
                log_failure_msg "${NAME} lockfile exists but process is not running"
