@@ -640,6 +640,7 @@ fi
 - Resolves: rhbz#1352120 The javadoc package is useless; it contains one index.html
 - Resolves: rhbz#1347838 The security manager doesn't work correctly (JSPs cannot be compiled)
 - Resolves: rhbz#1327327 rpm -V tomcat fails on /var/log/tomcat/catalina.out
+- Resolved: rhbz#1314177 Tomcat init script reports wrong status when one instance of several is stopped
 
 * Fri Nov 13 2015 Coty Sutherland <csutherl@redhat.com> 0:7.0.65-1
 - Updated to 7.0.65
