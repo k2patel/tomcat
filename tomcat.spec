@@ -53,7 +53,7 @@
 Name:          tomcat
 Epoch:         0
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -638,6 +638,9 @@ fi
 %{_sbindir}/%{name}-jsvc
 
 %changelog
+* Fri Aug 05 2016 Coty Sutherland <csutherl@redhat.com> 0:7.0.70-2
+- Related: rhbz#1314177 Had to fix a minor syntax issue that caused it to improperly eval
+
 * Fri Aug 05 2016 Coty Sutherland <csutherl@redhat.com> 0:7.0.70-1
 - Resolves: rhbz#1352120 The javadoc package is useless; it contains one index.html
 - Resolves: rhbz#1347838 The security manager doesn't work correctly (JSPs cannot be compiled)
