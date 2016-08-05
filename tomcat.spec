@@ -59,6 +59,7 @@ Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{js
 Group:         System Environment/Daemons
 License:       ASL 2.0
 URL:           http://tomcat.apache.org/
+
 Source0:       http://www.apache.org/dist/tomcat/tomcat-%{major_version}/v%{version}/src/%{packdname}.tar.gz
 Source1:       %{name}-%{major_version}.%{minor_version}.conf
 Source2:       %{name}-%{major_version}.%{minor_version}.init
@@ -83,6 +84,7 @@ Patch1:        %{name}-%{major_version}.%{minor_version}-tomcat-users-webapp.pat
 Patch2:        %{name}-7.0.57-CompilerOptionsV8.patch
 # Adding patch to remove unsupport ant tasks/attributes
 Patch3:        %{name}-7.0.65-build.patch
+Patch4:        %{name}-7.0-catalina-policy.patch
 
 BuildArch:     noarch
 
@@ -103,6 +105,7 @@ BuildRequires: jpackage-utils >= 0:1.7.0
 BuildRequires: junit
 BuildRequires: log4j
 BuildRequires: wsdl4j
+
 Requires:      jakarta-commons-daemon
 Requires:      jakarta-commons-logging
 Requires:      jakarta-commons-collections
@@ -233,6 +236,7 @@ find . -type f \( -name "*.bat" -o -name "*.class" -o -name Thumbs.db -o -name "
 %patch1 -p0
 %patch2 -p0
 %patch3 -p0
+%patch4 -p0
 
 %{__ln_s} $(build-classpath jakarta-taglibs-core) webapps/examples/WEB-INF/lib/jstl.jar
 %{__ln_s} $(build-classpath jakarta-taglibs-standard) webapps/examples/WEB-INF/lib/standard.jar
@@ -632,8 +636,9 @@ fi
 %{_sbindir}/%{name}-jsvc
 
 %changelog
-* Fri Jul 01 2016 Coty Sutherland <csutherl@redhat.com> 0:7.0.65-2
+* Fri Aug 05 2016 Coty Sutherland <csutherl@redhat.com> 0:7.0.65-2
 - Resolves: rhbz#1352120 The javadoc package is useless; it contains one index.html
+- Resolves: rhbz#1347838 The security manager doesn't work correctly (JSPs cannot be compiled)
 
 * Fri Nov 13 2015 Coty Sutherland <csutherl@redhat.com> 0:7.0.65-1
 - Updated to 7.0.65
