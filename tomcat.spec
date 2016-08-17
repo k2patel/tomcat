@@ -53,7 +53,7 @@
 Name:          tomcat
 Epoch:         0
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       2%{?dist}
+Release:       3%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -117,8 +117,8 @@ Requires:      %{name}-lib = %{epoch}:%{version}-%{release}
 Requires(pre):    shadow-utils
 Requires(post):   chkconfig
 Requires(preun):  chkconfig
-Requires(post): redhat-lsb
-Requires(preun): redhat-lsb
+Requires(post): /lib/lsb/init-functions
+Requires(preun): /lib/lsb/init-functions
 
 %description
 Tomcat is the servlet container that is used in the official Reference
@@ -638,6 +638,9 @@ fi
 %{_sbindir}/%{name}-jsvc
 
 %changelog
+* Wed Aug 17 2016 Coty Sutherland <csutherl@redhat.com> 0:7.0.70-3
+- Resolves: rhbz#1170797 remove tomcat6 dependency on redhat-lsb (and any other unnecessary ones)
+
 * Fri Aug 05 2016 Coty Sutherland <csutherl@redhat.com> 0:7.0.70-2
 - Related: rhbz#1314177 Had to fix a minor syntax issue that caused it to improperly eval
 
