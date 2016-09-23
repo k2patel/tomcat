@@ -31,7 +31,7 @@
 %global jspspec 2.2
 %global major_version 7
 %global minor_version 0
-%global micro_version 70
+%global micro_version 72
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.0
 %global elspec 2.2
@@ -53,7 +53,7 @@
 Name:          tomcat
 Epoch:         0
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       3%{?dist}
+Release:       1%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -638,6 +638,9 @@ fi
 %{_sbindir}/%{name}-jsvc
 
 %changelog
+* Fri Sep 23 2016 Coty Sutherland <csutherl@redhat.com> 0:7.0.70-4
+- Resolves: rhbz#1375582 CVE-2016-5388 Tomcat: CGI sets environmental variable based on user supplied Proxy request header
+
 * Wed Aug 17 2016 Coty Sutherland <csutherl@redhat.com> 0:7.0.70-3
 - Resolves: rhbz#1170797 remove tomcat6 dependency on redhat-lsb (and any other unnecessary ones)
 
