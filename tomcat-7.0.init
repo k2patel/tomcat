@@ -66,6 +66,9 @@ TOMCAT_PROG="${NAME}"
 # Define the tomcat username
 TOMCAT_USER="${TOMCAT_USER:-tomcat}"
 
+# Define the tomcat group
+TOMCAT_GROUP="${TOMCAT_GROUP:-`id -gn $TOMCAT_USER`}"
+
 # Define the tomcat log file
 TOMCAT_LOG="${TOMCAT_LOG:-${CATALINA_HOME}/logs/${NAME}-initd.log}"
 
@@ -122,7 +125,7 @@ function makeHomeDir() {
         cp -pLR /usr/share/${NAME}/conf $CATALINA_HOME
         ln -fs /usr/share/java/tomcat ${CATALINA_HOME}/lib
         ln -fs /usr/share/tomcat/webapps ${CATALINA_HOME}/webapps
-        chown ${TOMCAT_USER}:${TOMCAT_USER} /var/log/${NAME}
+        install -o ${TOMCAT_USER} -g ${TOMCAT_GROUP} -d -m 0770 /var/log/${NAME}
     fi
 }
 
@@ -166,11 +169,13 @@ function start() {
     # fix permissions on the log and pid files
     touch $CATALINA_PID 2>&1 || RETVAL="4"
     if [ "$RETVAL" -eq "0" -a "$?" -eq "0" ]; then 
-      chown ${TOMCAT_USER}:${TOMCAT_USER} $CATALINA_PID
+      install -o ${TOMCAT_USER} -g ${TOMCAT_GROUP} -m 644 /dev/null "${CATALINA_PID}"
     fi
     [ "$RETVAL" -eq "0" ] && touch $TOMCAT_LOG 2>&1 || RETVAL="4" 
     if [ "$RETVAL" -eq "0" -a "$?" -eq "0" ]; then
-      chown ${TOMCAT_USER}:${TOMCAT_USER} $TOMCAT_LOG
+      if [ ! -f "${TOMCAT_LOG}" ]; then
+        install -o ${TOMCAT_USER} -g ${TOMCAT_GROUP} -m 644 /dev/null "${TOMCAT_LOG}"
+      fi
     fi
     if [ "$CATALINA_HOME" != "/usr/share/tomcat" -a "$RETVAL" -eq "0" ]; then
         # Create a tomcat directory if it doesn't exist
