@@ -641,6 +641,7 @@ fi
 * Fri Sep 23 2016 Coty Sutherland <csutherl@redhat.com> 0:7.0.72-1
 - Resolves: rhbz#1375582 CVE-2016-5388 Tomcat: CGI sets environmental variable based on user supplied Proxy request header
 - Resolves: rhbz#1376718 CVE-2016-1240 tomcat: Local privilege escalation via unsafe file handling in the Tomcat init script
+- Resolves: rhbz#1379170 jsvc script is broken
 
 * Wed Aug 17 2016 Coty Sutherland <csutherl@redhat.com> 0:7.0.70-3
 - Resolves: rhbz#1170797 remove tomcat6 dependency on redhat-lsb (and any other unnecessary ones)
