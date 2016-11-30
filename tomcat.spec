@@ -31,7 +31,7 @@
 %global jspspec 2.2
 %global major_version 7
 %global minor_version 0
-%global micro_version 72
+%global micro_version 73
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.0
 %global elspec 2.2
@@ -638,6 +638,10 @@ fi
 %{_sbindir}/%{name}-jsvc
 
 %changelog
+* Tue Nov 29 2016 Coty Sutherland <csutherl@redhat.com> - 0:7.0.73-1
+- Update to 7.0.73
+- Resolves: rhbz#1397495 CVE-2016-6816 CVE-2016-8735 tomcat: various flaws
+
 * Fri Sep 23 2016 Coty Sutherland <csutherl@redhat.com> 0:7.0.72-1
 - Resolves: rhbz#1375582 CVE-2016-5388 Tomcat: CGI sets environmental variable based on user supplied Proxy request header
 - Resolves: rhbz#1376718 CVE-2016-1240 tomcat: Local privilege escalation via unsafe file handling in the Tomcat init script
