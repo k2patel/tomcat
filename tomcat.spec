@@ -31,7 +31,7 @@
 %global jspspec 2.2
 %global major_version 7
 %global minor_version 0
-%global micro_version 73
+%global micro_version 75
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.0
 %global elspec 2.2
@@ -638,6 +638,9 @@ fi
 %{_sbindir}/%{name}-jsvc
 
 %changelog
+* Thu Feb 16 2017 Coty Sutherland <csutherl@redhat.com> - 0:7.0.75-1
+- Update to 7.0.75
+
 * Tue Nov 29 2016 Coty Sutherland <csutherl@redhat.com> - 0:7.0.73-1
 - Update to 7.0.73
 - Resolves: rhbz#1397495 CVE-2016-6816 CVE-2016-8735 tomcat: various flaws
