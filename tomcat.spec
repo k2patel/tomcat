@@ -31,7 +31,7 @@
 %global jspspec 2.3
 %global major_version 8
 %global minor_version 0
-%global micro_version 39
+%global micro_version 41
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.1
 %global elspec 3.0
@@ -57,7 +57,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       2%{?dist}
+Release:       1%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -685,6 +685,10 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Thu Feb 16 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.0.41-1
+- Update to 8.0.41
+- Resolves: rhbz#1403825 CVE-2016-8745 tomcat: information disclosure due to incorrect Processor sharing
+
 * Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1:8.0.39-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
