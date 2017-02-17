@@ -644,6 +644,7 @@ fi
 * Thu Feb 16 2017 Coty Sutherland <csutherl@redhat.com> - 0:7.0.75-1
 - Update to 7.0.75
 - Resolves: rhbz#1420223 CVE-2016-6325 tomcat: tomcat writable config files allow privilege escalation
+- Resolves: rhbz#1372789 init script status command gives incorrect result
 
 * Tue Nov 29 2016 Coty Sutherland <csutherl@redhat.com> - 0:7.0.73-1
 - Update to 7.0.73
