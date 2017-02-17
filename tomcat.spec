@@ -538,28 +538,31 @@ fi
 %attr(0755,root,root) %{_sbindir}/%{name}
 %attr(0755,root,root) %{_initrddir}/%{name}
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
-%config(noreplace) %{_sysconfdir}/sysconfig/%{name}
+%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %attr(0755,root,tomcat) %dir %{basedir}
 %attr(0755,root,tomcat) %dir %{confdir}
+
 %defattr(0664,tomcat,root,0770)
 %attr(0770,tomcat,root) %dir %{logdir}
+
 %defattr(0664,root,tomcat,0770)
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 %attr(0644,tomcat,tomcat) %verify(not size md5 mtime) %{_localstatedir}/run/%{name}.pid
 %attr(0770,root,tomcat) %dir %{cachedir}
 %attr(0770,root,tomcat) %dir %{tempdir}
 %attr(0770,root,tomcat) %dir %{workdir}
-%defattr(0664,root,tomcat,0775)
+
+%defattr(0644,root,tomcat,0775)
 %attr(0775,root,tomcat) %dir %{appdir}
 %attr(0775,root,tomcat) %dir %{confdir}/Catalina
 %attr(0775,root,tomcat) %dir %{confdir}/Catalina/localhost
-%attr(0664,tomcat,tomcat) %config(noreplace) %{confdir}/%{name}.conf
-%attr(0664,tomcat,tomcat) %config(noreplace) %{confdir}/*.policy
-%attr(0664,tomcat,tomcat) %config(noreplace) %{confdir}/*.properties
-%attr(0664,tomcat,tomcat) %config(noreplace) %{confdir}/context.xml
-%attr(0664,tomcat,tomcat) %config(noreplace) %{confdir}/server.xml
-%attr(0660,tomcat,tomcat) %config(noreplace) %{confdir}/tomcat-users.xml
-%attr(0664,tomcat,tomcat) %config(noreplace) %{confdir}/web.xml
+%config(noreplace) %{confdir}/%{name}.conf
+%config(noreplace) %{confdir}/*.policy
+%config(noreplace) %{confdir}/*.properties
+%config(noreplace) %{confdir}/context.xml
+%config(noreplace) %{confdir}/server.xml
+%attr(0640,root,tomcat) %config(noreplace) %{confdir}/tomcat-users.xml
+%config(noreplace) %{confdir}/web.xml
 %dir %{homedir}
 %{_prefix}/lib/tmpfiles.d/%{name}.conf
 %{bindir}/bootstrap.jar
@@ -640,6 +643,7 @@ fi
 %changelog
 * Thu Feb 16 2017 Coty Sutherland <csutherl@redhat.com> - 0:7.0.75-1
 - Update to 7.0.75
+- Resolves: rhbz#1420223 CVE-2016-6325 tomcat: tomcat writable config files allow privilege escalation
 
 * Tue Nov 29 2016 Coty Sutherland <csutherl@redhat.com> - 0:7.0.73-1
 - Update to 7.0.73
