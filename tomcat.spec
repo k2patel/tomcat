@@ -31,7 +31,7 @@
 %global jspspec 2.3
 %global major_version 8
 %global minor_version 0
-%global micro_version 41
+%global micro_version 42
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.1
 %global elspec 3.0
@@ -685,6 +685,9 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Fri Mar 31 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.0.42-1
+- Update to 8.0.42
+
 * Thu Feb 16 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.0.41-1
 - Update to 8.0.41
 - Resolves: rhbz#1403825 CVE-2016-8745 tomcat: information disclosure due to incorrect Processor sharing
