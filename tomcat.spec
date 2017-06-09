@@ -31,7 +31,7 @@
 %global jspspec 2.3
 %global major_version 8
 %global minor_version 0
-%global micro_version 43
+%global micro_version 44
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.1
 %global elspec 3.0
@@ -685,6 +685,9 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Fri Jun 09 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.0.44-1
+- Resolves: rhbz#1459160 CVE-2017-5664 tomcat: Security constrained bypass in error page mechanism
+
 * Tue Apr 11 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.0.43-1
 - Update to 8.0.43
 
