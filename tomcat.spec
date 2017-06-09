@@ -31,7 +31,7 @@
 %global jspspec 2.2
 %global major_version 7
 %global minor_version 0
-%global micro_version 77
+%global micro_version 78
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.0
 %global elspec 2.2
@@ -641,6 +641,10 @@ fi
 %{_sbindir}/%{name}-jsvc
 
 %changelog
+* Fri Jun 09 2017 Coty Sutherland <csutherl@redhat.com> - 0:7.0.78-1
+- Update to 7.0.78
+- Resolves: rhbz#1459161 CVE-2017-5664 tomcat: Security constrained bypass in error page mechanism
+
 * Tue Apr 11 2017 Coty Sutherland <csutherl@redhat.com> - 0:7.0.77-1
 - Update to 7.0.77
 
