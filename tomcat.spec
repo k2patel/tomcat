@@ -57,7 +57,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -685,6 +685,9 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1:8.0.44-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
 * Fri Jun 09 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.0.44-1
 - Resolves: rhbz#1459160 CVE-2017-5664 tomcat: Security constrained bypass in error page mechanism
 
