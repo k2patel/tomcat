@@ -31,7 +31,7 @@
 %global jspspec 2.3
 %global major_version 8
 %global minor_version 0
-%global micro_version 44
+%global micro_version 46
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.1
 %global elspec 3.0
@@ -685,6 +685,10 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Mon Aug 21 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.0.46-1
+- Update to 8.0.46
+- Resolves: rhbz#1480620 CVE-2017-7674 tomcat: Cache Poisoning
+
 * Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1:8.0.44-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
