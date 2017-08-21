@@ -31,7 +31,7 @@
 %global jspspec 2.2
 %global major_version 7
 %global minor_version 0
-%global micro_version 78
+%global micro_version 81
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.0
 %global elspec 2.2
@@ -641,6 +641,10 @@ fi
 %{_sbindir}/%{name}-jsvc
 
 %changelog
+* Mon Aug 21 2017 Coty Sutherland <csutherl@redhat.com> - 0:7.0.81-1
+- Update to 7.0.81
+- Resolves: rhbz#1480621 CVE-2017-7674 tomcat: Cache Poisoning
+
 * Fri Jun 09 2017 Coty Sutherland <csutherl@redhat.com> - 0:7.0.78-1
 - Update to 7.0.78
 - Resolves: rhbz#1459161 CVE-2017-5664 tomcat: Security constrained bypass in error page mechanism
