@@ -31,7 +31,7 @@
 %global jspspec 2.3
 %global major_version 8
 %global minor_version 0
-%global micro_version 46
+%global micro_version 47
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.1
 %global elspec 3.0
@@ -690,6 +690,10 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Wed Oct 04 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.0.47-1
+- Update to 8.0.47
+- Resolves: rhbz#1497682 CVE-2017-12617 tomcat: Remote Code Execution bypass for CVE-2017-12615
+
 * Mon Aug 21 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.0.46-1
 - Update to 8.0.46
 - Resolves: rhbz#1480620 CVE-2017-7674 tomcat: Cache Poisoning
