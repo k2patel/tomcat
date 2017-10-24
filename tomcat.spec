@@ -57,7 +57,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -299,25 +299,25 @@ popd
 mkdir -p META-INF
 cp -p %{SOURCE8} META-INF/MANIFEST.MF
 touch META-INF/MANIFEST.MF
-zip -u output/build/lib/servlet-api.jar META-INF/MANIFEST.MF
+zip output/build/lib/servlet-api.jar META-INF/MANIFEST.MF
 cp -p %{SOURCE9} META-INF/MANIFEST.MF
 touch META-INF/MANIFEST.MF
-zip -u output/build/lib/jsp-api.jar META-INF/MANIFEST.MF
+zip output/build/lib/jsp-api.jar META-INF/MANIFEST.MF
 cp -p %{SOURCE12} META-INF/MANIFEST.MF
 touch META-INF/MANIFEST.MF
-zip -u output/build/lib/el-api.jar META-INF/MANIFEST.MF
+zip output/build/lib/el-api.jar META-INF/MANIFEST.MF
 cp -p %{SOURCE13} META-INF/MANIFEST.MF
 touch META-INF/MANIFEST.MF
-zip -u output/build/lib/jasper-el.jar META-INF/MANIFEST.MF
+zip output/build/lib/jasper-el.jar META-INF/MANIFEST.MF
 cp -p %{SOURCE14} META-INF/MANIFEST.MF
 touch META-INF/MANIFEST.MF
-zip -u output/build/lib/jasper.jar META-INF/MANIFEST.MF
+zip output/build/lib/jasper.jar META-INF/MANIFEST.MF
 cp -p %{SOURCE15} META-INF/MANIFEST.MF
 touch META-INF/MANIFEST.MF
-zip -u output/build/lib/tomcat-api.jar META-INF/MANIFEST.MF
+zip output/build/lib/tomcat-api.jar META-INF/MANIFEST.MF
 cp -p %{SOURCE16} META-INF/MANIFEST.MF
 touch META-INF/MANIFEST.MF
-zip -u output/build/bin/tomcat-juli.jar META-INF/MANIFEST.MF
+zip output/build/bin/tomcat-juli.jar META-INF/MANIFEST.MF
 
 %install
 # build initial path structure
@@ -690,6 +690,10 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Tue Oct 24 2017 Troy Dawson <tdawson@redhat.com> - 1:8.0.47-2
+- Change "zip -u" to "zip"
+- Resolves: rhbz#1495241 [tomcat] zip -u in spec file causes race condition
+
 * Wed Oct 04 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.0.47-1
 - Update to 8.0.47
 - Resolves: rhbz#1497682 CVE-2017-12617 tomcat: Remote Code Execution bypass for CVE-2017-12615
