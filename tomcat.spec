@@ -86,28 +86,21 @@ Source32:      tomcat-named.service
 
 Patch0:        %{name}-%{major_version}.%{minor_version}-bootstrap-MANIFEST.MF.patch
 Patch1:        %{name}-%{major_version}.%{minor_version}-tomcat-users-webapp.patch
-Patch2:        %{name}-8.0.36-CompilerOptionsV9.patch
+Patch2:        %{name}-8.0.47-CompilerOptionsV8-9.patch
 
 BuildArch:     noarch
 
 BuildRequires: ant
-BuildRequires: ecj >= 1:4.4.0
 BuildRequires: findutils
 BuildRequires: apache-commons-collections
 BuildRequires: apache-commons-daemon
 BuildRequires: apache-commons-dbcp
 BuildRequires: apache-commons-pool
-BuildRequires: tomcat-taglibs-standard
+BuildRequires: jakarta-taglibs-standard
+BuildRequires: ecj >= 1:4.2.0
 BuildRequires: java-devel >= 1:1.6.0
 BuildRequires: jpackage-utils >= 0:1.7.0
-%if 0%{?fedora} >= 27
-# add_maven_depmap is deprecated, using javapackages-local for now
-# See https://fedora-java.github.io/howto/latest/#_add_maven_depmap_macro
-BuildRequires: javapackages-local
-%endif
 BuildRequires: junit
-BuildRequires: geronimo-jaxrpc
-BuildRequires: wsdl4j
 BuildRequires: systemd-units
 Requires:      apache-commons-daemon
 Requires:      apache-commons-logging
@@ -118,7 +111,6 @@ Requires:      java-headless >= 1:1.6.0
 Requires:      jpackage-utils
 Requires:      procps
 Requires:      %{name}-lib = %{epoch}:%{version}-%{release}
-Recommends:    tomcat-native >= %{native_version}
 Requires(pre):    shadow-utils
 Requires(post):   chkconfig
 Requires(preun):  chkconfig
@@ -230,7 +222,7 @@ Expression Language %{elspec}.
 Group: Applications/Internet
 Summary: The ROOT and examples web applications for Apache Tomcat
 Requires: %{name} = %{epoch}:%{version}-%{release}
-Requires: tomcat-taglibs-standard >= 0:1.1
+Requires: jakarta-taglibs-standard >= 0:1.1
 
 %description webapps
 The ROOT and examples web applications for Apache Tomcat.
@@ -245,8 +237,8 @@ find . -type f \( -name "*.bat" -o -name "*.class" -o -name Thumbs.db -o -name "
 %patch1 -p0
 %patch2 -p0
 
-%{__ln_s} $(build-classpath tomcat-taglibs-standard/taglibs-standard-impl) webapps/examples/WEB-INF/lib/jstl.jar
-%{__ln_s} $(build-classpath tomcat-taglibs-standard/taglibs-standard-compat) webapps/examples/WEB-INF/lib/standard.jar
+%{__ln_s} $(build-classpath jakarta-taglibs-core) webapps/examples/WEB-INF/lib/jstl.jar
+%{__ln_s} $(build-classpath jakarta-taglibs-standard) webapps/examples/WEB-INF/lib/standard.jar
 
 %build
 export OPT_JAR_LIST="xalan-j2-serializer"
@@ -271,8 +263,6 @@ export OPT_JAR_LIST="xalan-j2-serializer"
       -Dtomcat-native.win.path="HACKDIR" \
       -Dcommons-daemon.native.win.mgr.exe="HACK" \
       -Dnsis.exe="HACK" \
-      -Djaxrpc-lib.jar="$(build-classpath jaxrpc)" \
-      -Dwsdl4j-lib.jar="$(build-classpath wsdl4j)" \
       -Dcommons-pool.home="HACKDIR" \
       -Dcommons-dbcp.home="HACKDIR" \
       -Dno.build.dbcp=true \
@@ -412,7 +402,7 @@ pushd output/build
     # need to use -p here with b-j-r otherwise the examples webapp fails to
     # load with a java.io.IOException
     %{_bindir}/build-jar-repository -p webapps/examples/WEB-INF/lib \
-    tomcat-taglibs-standard/taglibs-standard-impl.jar tomcat-taglibs-standard/taglibs-standard-compat.jar 2>&1
+    jakarta-taglibs-standard/taglibs-standard-impl.jar jakarta-taglibs-standard/taglibs-standard-compat.jar 2>&1
 popd
 
 pushd ${RPM_BUILD_ROOT}%{libdir}
@@ -456,8 +446,8 @@ echo '</Context>' >> context.xml
 popd
 
 pushd ${RPM_BUILD_ROOT}%{appdir}/examples/WEB-INF/lib
-%{__ln_s} -f $(build-classpath tomcat-taglibs-standard/taglibs-standard-impl) jstl.jar
-%{__ln_s} -f $(build-classpath tomcat-taglibs-standard/taglibs-standard-compat) standard.jar
+%{__ln_s} -f $(build-classpath jakarta-taglibs-core) jstl.jar
+%{__ln_s} -f $(build-classpath jakarta-taglibs-standard) standard.jar
 popd
 
 
@@ -476,12 +466,12 @@ for libname in annotations-api catalina jasper-el jasper catalina-ha; do
 done
 
 # tomcat-util-scan
-%{__cp} -a %{name}-util-scan.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-util-scan.pom
-%add_maven_depmap JPP.%{name}-util-scan.pom %{name}/%{name}-util-scan.jar -f "tomcat-lib"
+%{__cp} -a %{name}-util-scan.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-tomcat-util-scan.pom
+%add_maven_depmap JPP.%{name}-tomcat-util-scan.pom %{name}/%{name}-util-scan.jar -f "tomcat-lib"
 
 # tomcat-jni
-%{__cp} -a %{name}-jni.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-jni.pom
-%add_maven_depmap JPP.%{name}-jni.pom %{name}/%{name}-jni.jar -f "tomcat-lib"
+%{__cp} -a %{name}-jni.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-tomcat-jni.pom
+%add_maven_depmap JPP.%{name}-tomcat-jni.pom %{name}/%{name}-jni.jar -f "tomcat-lib"
 
 # servlet-api jsp-api and el-api are not in tomcat subdir, since they are widely re-used elsewhere
 %{__cp} -a tomcat-jsp-api.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP-tomcat-jsp-api.pom
@@ -646,10 +636,14 @@ fi
 %defattr(-,root,root,-)
 %{_javadir}/%{name}-jsp-%{jspspec}*.jar
 
-%files lib -f output/dist/src/res/maven/.mfiles-tomcat-lib
+# There is/was a bug in how .mfiles-tomcat-lib was generated which made it unusable
+# I just copied the list into the file list below
+#%%files lib -f output/dist/src/res/maven/.mfiles-tomcat-lib
+%files lib
 %defattr(-,root,root,-)
 %{libdir}
 %{bindir}/tomcat-juli.jar
+%{_mavendepmapfragdir}/*
 %{_mavenpomdir}/JPP.%{name}-annotations-api.pom
 %{_mavenpomdir}/JPP.%{name}-catalina-ha.pom
 %{_mavenpomdir}/JPP.%{name}-catalina-tribes.pom
@@ -663,7 +657,9 @@ fi
 %{_mavenpomdir}/JPP.%{name}-tomcat-jdbc.pom
 %{_mavenpomdir}/JPP.%{name}-websocket-api.pom
 %{_mavenpomdir}/JPP.%{name}-tomcat-websocket.pom
-%{_datadir}/maven-metadata/tomcat.xml
+%{_mavenpomdir}/JPP.%{name}-tomcat-jni.pom
+%{_mavenpomdir}/JPP.%{name}-tomcat-util-scan.pom
+
 %exclude %{libdir}/%{name}-el-%{elspec}-api.jar
 
 %files servlet-%{servletspec}-api -f output/dist/src/res/maven/.mfiles-tomcat-servlet-api
