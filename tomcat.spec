@@ -101,6 +101,8 @@ BuildRequires: ecj >= 1:4.2.0
 BuildRequires: java-devel >= 1:1.6.0
 BuildRequires: jpackage-utils >= 0:1.7.0
 BuildRequires: junit
+BuildRequires: geronimo-jaxrpc
+BuildRequires: wsdl4j
 BuildRequires: systemd-units
 Requires:      apache-commons-daemon
 Requires:      apache-commons-logging
@@ -263,6 +265,8 @@ export OPT_JAR_LIST="xalan-j2-serializer"
       -Dtomcat-native.win.path="HACKDIR" \
       -Dcommons-daemon.native.win.mgr.exe="HACK" \
       -Dnsis.exe="HACK" \
+      -Djaxrpc-lib.jar="$(build-classpath jaxrpc)" \
+      -Dwsdl4j-lib.jar="$(build-classpath wsdl4j)" \
       -Dcommons-pool.home="HACKDIR" \
       -Dcommons-dbcp.home="HACKDIR" \
       -Dno.build.dbcp=true \
