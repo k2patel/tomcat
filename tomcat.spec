@@ -57,7 +57,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       2%{?dist}
+Release:       3%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -100,7 +100,7 @@ BuildRequires: apache-commons-pool
 BuildRequires: tomcat-taglibs-standard
 BuildRequires: java-devel >= 1:1.6.0
 BuildRequires: jpackage-utils >= 0:1.7.0
-%if 0%{?fedora} >= 27
+%if 0%{?fedora} >= 27 || 0%{?rhel} > 7
 # add_maven_depmap is deprecated, using javapackages-local for now
 # See https://fedora-java.github.io/howto/latest/#_add_maven_depmap_macro
 BuildRequires: javapackages-local
@@ -690,6 +690,9 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Tue Dec 12 2017 Merlin Mathesius <mmathesi@redhat.com> - 1:8.0.47-3
+- Cleanup spec file conditionals
+
 * Tue Oct 24 2017 Troy Dawson <tdawson@redhat.com> - 1:8.0.47-2
 - Change "zip -u" to "zip"
 - Resolves: rhbz#1495241 [tomcat] zip -u in spec file causes race condition
