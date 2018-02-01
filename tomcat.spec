@@ -31,7 +31,7 @@
 %global jspspec 2.2
 %global major_version 7
 %global minor_version 0
-%global micro_version 82
+%global micro_version 84
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.0
 %global elspec 2.2
@@ -641,6 +641,9 @@ fi
 %{_sbindir}/%{name}-jsvc
 
 %changelog
+* Thu Feb 01 2018 Coty Sutherland <csutherl@redhat.com> - 0:7.0.84-1
+- Update to 7.0.84
+
 * Wed Oct 04 2017 Coty Sutherland <csutherl@redhat.com> - 0:7.0.82-1
 - Update to 7.0.82
 - Resolves: rhbz#1497681 CVE-2017-12617 tomcat: Remote Code Execution bypass for CVE-2017-12615
