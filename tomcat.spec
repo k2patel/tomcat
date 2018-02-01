@@ -81,7 +81,7 @@ Source16:      %{name}-%{major_version}.%{minor_version}-jsvc.wrapper
 Patch0:        %{name}-%{major_version}.%{minor_version}-bootstrap-MANIFEST.MF.patch
 Patch1:        %{name}-%{major_version}.%{minor_version}-tomcat-users-webapp.patch
 # Adding patch to remove java 1.8 compiler options due to outdated ecj version in el6
-Patch2:        %{name}-7.0.70-CompilerOptionsV8.patch
+Patch2:        %{name}-7.0.84-CompilerOptionsV89.patch
 # Adding patch to remove unsupport ant tasks/attributes
 Patch3:        %{name}-7.0.70-build.patch
 Patch4:        %{name}-7.0-catalina-policy.patch
