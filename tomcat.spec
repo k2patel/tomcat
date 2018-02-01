@@ -277,8 +277,6 @@ export OPT_JAR_LIST="ant/ant-trax ant/ant-nodeps xalan-j2-serializer"
            output/build/lib/ecj.jar \
            output/build/lib/jakarta-commons-dbcp.jar
 
-    # remove the cruft we created
-   %{__rm} output/build/bin/tomcat-native.tar.gz
 pushd output/dist/src/webapps/docs/appdev/sample/src
 %{__mkdir_p} ../web/WEB-INF/classes
 %{javac} -cp ../../../../../../../../output/build/lib/servlet-api.jar -d ../web/WEB-INF/classes mypackage/Hello.java
