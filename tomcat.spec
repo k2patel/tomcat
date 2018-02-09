@@ -57,7 +57,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -688,6 +688,9 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Fri Feb 09 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1:8.0.49-2
+- Escape macros in %%changelog
+
 * Thu Feb 01 2018 Coty Sutherland <csutherl@redhat.com> - 1:8.0.49-1
 - Update to 8.0.49
 
@@ -841,7 +844,7 @@ fi
 - Updated to 7.0.52
 - Rewrite jsvc implementation, resolves: rhbz#1051743
 - Switch to java-headless R, resolves: rhbz#1068566
-- Create and own %{_localstatedir}/lib/tomcats, resolves: rhbz#1026741
+- Create and own %%{_localstatedir}/lib/tomcats, resolves: rhbz#1026741
 - Add pom for tomcat-jdbc, resolves: rhbz#1011003 
 
 * Tue Jan 21 2014 Mikolaj Izdebski <mizdebsk@redhat.com> - 0:7.0.47-3
@@ -920,7 +923,7 @@ fi
 - Updated to 7.0.28
 - Resolves: rhbz 820119 Remove bundled apache-commons-dbcp
 - Resolves: rhbz 814900 Added tomcat-coyote POM
-- Resolves: rhbz 810775 Remove systemv stuff from %post scriptlet
+- Resolves: rhbz 810775 Remove systemv stuff from %%post scriptlet
 - Remove redhat-lsb R 
 
 * Mon Apr 9 2012 Ivan Afonichev <ivan.afonichev@gmail.com> 0:7.0.27-2
@@ -1040,7 +1043,7 @@ fi
 
 * Thu Apr 28 2011 Ivan Afonichev <ivan.afonichev@gmail.com> 0:7.0.12-2
 - Package now named just tomcat instead of tomcat7
-- Removed Provides:  %{name}-log4j
+- Removed Provides:  %%{name}-log4j
 - Switched to apache-commons-* names instead of jakarta-commons-* .
 - Remove the old changelog
 - BR/R java >= 1:1.6.0 , same for java-devel
