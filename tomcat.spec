@@ -93,6 +93,7 @@ Source32:      tomcat-named.service
 Patch0:        %{name}-%{major_version}.%{minor_version}-bootstrap-MANIFEST.MF.patch
 Patch1:        %{name}-%{major_version}.%{minor_version}-tomcat-users-webapp.patch
 Patch2:        %{name}-8.0.36-CompilerOptionsV9.patch
+Patch3:        disableJavadocFailOnWarning.patch
 
 BuildArch:     noarch
 
@@ -250,6 +251,7 @@ find . -type f \( -name "*.bat" -o -name "*.class" -o -name Thumbs.db -o -name "
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
+%patch3 -p0
 
 %{__ln_s} $(build-classpath tomcat-taglibs-standard/taglibs-standard-impl) webapps/examples/WEB-INF/lib/jstl.jar
 %{__ln_s} $(build-classpath tomcat-taglibs-standard/taglibs-standard-compat) webapps/examples/WEB-INF/lib/standard.jar
