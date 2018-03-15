@@ -30,14 +30,14 @@
 
 %global jspspec 2.3
 %global major_version 8
-%global minor_version 0
-%global micro_version 49
+%global minor_version 5
+%global micro_version 29
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.1
 %global elspec 3.0
 %global tcuid 91
-#Recommended version is specified in java/org/apache/catalina/core/AprLifecycleListener.java
-%global native_version 1.1.33
+# Recommended version is specified in java/org/apache/catalina/core/AprLifecycleListener.java
+%global native_version 1.2.8
 
 
 # FHS 2.3 compliant tree structure - http://www.pathname.com/fhs/2.3/
@@ -54,10 +54,16 @@
 %global _initrddir %{_sysconfdir}/init.d
 %global _systemddir /lib/systemd/system
 
+# Fedora doesn't seem to have this macro, so we define it if it doesn't exist
+%{!?_mavendepmapfragdir: %global _mavendepmapfragdir /usr/share/maven-metadata}
+# Fedora 24 erroneously uses %%{_datadir}/maven-fragments instead of /maven-metadata for some reason...
+# Override the mavendepmapfragdir var on fc24
+%{?fc24: %global _mavendepmapfragdir /usr/share/maven-metadata}
+
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       2%{?dist}
+Release:       1%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -109,8 +115,8 @@ BuildRequires: junit
 BuildRequires: geronimo-jaxrpc
 BuildRequires: wsdl4j
 BuildRequires: systemd-units
+
 Requires:      apache-commons-daemon
-Requires:      apache-commons-logging
 Requires:      apache-commons-collections
 Requires:      apache-commons-dbcp
 Requires:      apache-commons-pool
@@ -176,7 +182,7 @@ which allows tomcat to perform some privileged operations
 
 %package jsp-%{jspspec}-api
 Group: Development/Libraries
-Summary: Apache Tomcat JSP API implementation classes
+Summary: Apache Tomcat JavaServer Pages v%{jspspec} API Implementation Classes
 Provides: jsp = %{jspspec}
 Obsoletes: %{name}-jsp-2.2-api
 Requires: %{name}-servlet-%{servletspec}-api = %{epoch}:%{version}-%{release}
@@ -185,7 +191,7 @@ Requires(post): chkconfig
 Requires(postun): chkconfig
 
 %description jsp-%{jspspec}-api
-Apache Tomcat JSP API implementation classes.
+Apache Tomcat JSP API Implementation Classes.
 
 %package lib
 Group: Development/Libraries
@@ -204,7 +210,7 @@ Libraries needed to run the Tomcat Web container.
 
 %package servlet-%{servletspec}-api
 Group: Development/Libraries
-Summary: Apache Tomcat Servlet API implementation classes
+Summary: Apache Tomcat Java Servlet v%{servletspec} API Implementation Classes
 Provides: servlet = %{servletspec}
 Provides: servlet6
 Provides: servlet3
@@ -213,18 +219,18 @@ Requires(post): chkconfig
 Requires(postun): chkconfig
 
 %description servlet-%{servletspec}-api
-Apache Tomcat Servlet API implementation classes.
+Apache Tomcat Servlet API Implementation Classes.
 
 %package el-%{elspec}-api
 Group: Development/Libraries
-Summary: Expression Language v%{elspec} API
+Summary: Apache Tomcat Expression Language v%{elspec} API Implementation Classes
 Provides: el_api = %{elspec}
 Obsoletes: %{name}-el-2.2-api
 Requires(post): chkconfig
 Requires(postun): chkconfig
 
 %description el-%{elspec}-api
-Expression Language %{elspec}.
+Apache Tomcat EL API Implementation Classes.
 
 %package webapps
 Group: Applications/Internet
@@ -254,9 +260,6 @@ export OPT_JAR_LIST="xalan-j2-serializer"
    # tomcat-dbcp.jar with apache-commons-{collections,dbcp,pool}-tomcat5.jar
    # so just create a dummy file for later removal
    touch HACK
-   %{__mkdir_p} HACKDIR
-   touch HACKDIR/build.xml
-   touch HACKDIR/LICENSE
 
    # who needs a build.properties file anyway
    %{ant} -Dbase.path="." \
@@ -264,27 +267,22 @@ export OPT_JAR_LIST="xalan-j2-serializer"
       -Dcommons-collections.jar="$(build-classpath apache-commons-collections)" \
       -Dcommons-daemon.jar="$(build-classpath apache-commons-daemon)" \
       -Dcommons-daemon.native.src.tgz="HACK" \
-      -Djasper-jdt.jar="$(build-classpath ecj)" \
       -Djdt.jar="$(build-classpath ecj)" \
       -Dtomcat-native.tar.gz="HACK" \
       -Dtomcat-native.home="." \
-      -Dtomcat-native.win.path="HACKDIR" \
       -Dcommons-daemon.native.win.mgr.exe="HACK" \
       -Dnsis.exe="HACK" \
       -Djaxrpc-lib.jar="$(build-classpath jaxrpc)" \
       -Dwsdl4j-lib.jar="$(build-classpath wsdl4j)" \
-      -Dcommons-pool.home="HACKDIR" \
-      -Dcommons-dbcp.home="HACKDIR" \
       -Dno.build.dbcp=true \
       -Dversion="%{version}" \
       -Dversion.build="%{micro_version}" \
       -Djava.7.home=%{java_home} \
+      -Dexecute.validate=false \
       deploy dist-prepare dist-source javadoc
 
     # remove some jars that we'll replace with symlinks later
-   %{__rm} output/build/bin/commons-daemon.jar \
-           output/build/lib/ecj.jar
-
+    %{__rm} output/build/bin/commons-daemon.jar output/build/lib/ecj.jar
 pushd output/dist/src/webapps/docs/appdev/sample/src
 %{__mkdir_p} ../web/WEB-INF/classes
 %{javac} -cp ../../../../../../../../output/build/lib/servlet-api.jar -d ../web/WEB-INF/classes mypackage/Hello.java
@@ -346,7 +344,7 @@ zip output/build/bin/tomcat-juli.jar META-INF/MANIFEST.MF
 # First copy supporting libs to tomcat lib
 pushd output/build
     %{__cp} -a bin/*.{jar,xml} ${RPM_BUILD_ROOT}%{bindir}
-    %{__cp} -a conf/*.{policy,properties,xml} ${RPM_BUILD_ROOT}%{confdir}
+    %{__cp} -a conf/*.{policy,properties,xml,xsd} ${RPM_BUILD_ROOT}%{confdir}
     %{__cp} -a lib/*.jar ${RPM_BUILD_ROOT}%{libdir}
     %{__cp} -a webapps/* ${RPM_BUILD_ROOT}%{appdir}
 popd
@@ -524,6 +522,10 @@ done
 %{__cp} -a tomcat-websocket.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-tomcat-websocket.pom
 %add_maven_depmap JPP.%{name}-tomcat-websocket.pom %{name}/tomcat-websocket.jar
 
+# tomcat-jaspic-api
+%{__cp} -a tomcat-jaspic-api.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-jaspic-api.pom
+%add_maven_depmap JPP.%{name}-jaspic-api.pom %{name}/jaspic-api.jar
+
 
 %pre
 # add the tomcat user and group
@@ -616,6 +618,9 @@ fi
 %config(noreplace) %{confdir}/context.xml
 %config(noreplace) %{confdir}/server.xml
 %attr(0640,root,tomcat) %config(noreplace) %{confdir}/tomcat-users.xml
+%attr(0664,root,tomcat) %{confdir}/tomcat-users.xsd
+%attr(0664,root,tomcat) %config(noreplace) %{confdir}/jaspic-providers.xml
+%attr(0664,root,tomcat) %{confdir}/jaspic-providers.xsd
 %config(noreplace) %{confdir}/web.xml
 %dir %{homedir}
 %{bindir}/bootstrap.jar
@@ -646,7 +651,9 @@ fi
 
 %files lib -f output/dist/src/res/maven/.mfiles-tomcat-lib
 %defattr(-,root,root,-)
-%{libdir}
+%dir %{libdir}
+%{libdir}/*.jar
+%{_javadir}/*.jar
 %{bindir}/tomcat-juli.jar
 %{_mavenpomdir}/JPP.%{name}-annotations-api.pom
 %{_mavenpomdir}/JPP.%{name}-catalina-ha.pom
@@ -661,8 +668,12 @@ fi
 %{_mavenpomdir}/JPP.%{name}-tomcat-jdbc.pom
 %{_mavenpomdir}/JPP.%{name}-websocket-api.pom
 %{_mavenpomdir}/JPP.%{name}-tomcat-websocket.pom
+%{_mavenpomdir}/JPP.%{name}-jaspic-api.pom
 %{_datadir}/maven-metadata/tomcat.xml
 %exclude %{libdir}/%{name}-el-%{elspec}-api.jar
+%exclude %{_javadir}/%{name}-servlet-%{servletspec}*.jar
+%exclude %{_javadir}/%{name}-el-%{elspec}-api.jar
+%exclude %{_javadir}/%{name}-jsp-%{jspspec}*.jar
 
 %files servlet-%{servletspec}-api -f output/dist/src/res/maven/.mfiles-tomcat-servlet-api
 %defattr(-,root,root,-)
@@ -688,6 +699,9 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Thu Mar 15 2018 Coty Sutherland <csutherl@redhat.com> - 1:8.5.29-1
+- Update to 8.5.29
+
 * Fri Feb 09 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1:8.0.49-2
 - Escape macros in %%changelog
 
