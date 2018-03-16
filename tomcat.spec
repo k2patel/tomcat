@@ -703,6 +703,8 @@ fi
 %changelog
 * Thu Mar 15 2018 Coty Sutherland <csutherl@redhat.com> - 1:8.5.29-1
 - Update to 8.5.29
+- Resolves: rhbz#1548290 CVE-2018-1304 tomcat: Incorrect handling of empty string URL in security constraints can lead to unitended exposure of resources
+- Resolves: rhbz#1548284 CVE-2018-1305 tomcat: Late application of security constraints can lead to resource exposure for unauthorised users
 
 * Fri Feb 09 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1:8.0.49-2
 - Escape macros in %%changelog
