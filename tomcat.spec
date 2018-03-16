@@ -31,7 +31,7 @@
 %global jspspec 2.2
 %global major_version 7
 %global minor_version 0
-%global micro_version 84
+%global micro_version 85
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.0
 %global elspec 2.2
@@ -639,6 +639,9 @@ fi
 %{_sbindir}/%{name}-jsvc
 
 %changelog
+* Fri Mar 16 2018 Coty Sutherland <csutherl@redhat.com> - 1:7.0.85-1
+- Update to 7.0.85
+
 * Thu Feb 01 2018 Coty Sutherland <csutherl@redhat.com> - 0:7.0.84-1
 - Update to 7.0.84
 
