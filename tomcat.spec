@@ -31,7 +31,7 @@
 %global jspspec 2.3
 %global major_version 8
 %global minor_version 0
-%global micro_version 49
+%global micro_version 50
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.1
 %global elspec 3.0
@@ -683,6 +683,9 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Fri Mar 16 2018 Coty Sutherland <csutherl@redhat.com> - 1:8.0.50-1
+- Update to 8.0.50
+
 * Thu Feb 01 2018 Coty Sutherland <csutherl@redhat.com> - 1:8.0.49-1
 - Update to 8.0.49
 
