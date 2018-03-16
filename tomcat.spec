@@ -641,6 +641,8 @@ fi
 %changelog
 * Fri Mar 16 2018 Coty Sutherland <csutherl@redhat.com> - 1:7.0.85-1
 - Update to 7.0.85
+- Resolves: rhbz#1548291 CVE-2018-1304 tomcat: Incorrect handling of empty string URL in security constraints can lead to unitended exposure of resources
+- Resolves: rhbz#1548283 CVE-2018-1305 tomcat: Late application of security constraints can lead to resource exposure for unauthorised users
 
 * Thu Feb 01 2018 Coty Sutherland <csutherl@redhat.com> - 0:7.0.84-1
 - Update to 7.0.84
