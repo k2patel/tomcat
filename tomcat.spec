@@ -31,7 +31,7 @@
 %global jspspec 2.2
 %global major_version 7
 %global minor_version 0
-%global micro_version 85
+%global micro_version 86
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.0
 %global elspec 2.2
@@ -639,6 +639,9 @@ fi
 %{_sbindir}/%{name}-jsvc
 
 %changelog
+* Tue May 01 2018 Coty Sutherland <csutherl@redhat.com> - 1:7.0.86-1
+- Update to 7.0.86
+
 * Fri Mar 16 2018 Coty Sutherland <csutherl@redhat.com> - 1:7.0.85-1
 - Update to 7.0.85
 - Resolves: rhbz#1548291 CVE-2018-1304 tomcat: Incorrect handling of empty string URL in security constraints can lead to unitended exposure of resources
