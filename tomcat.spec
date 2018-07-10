@@ -640,19 +640,15 @@ fi
 %{appdir}/manager
 
 %files docs-webapp
-%defattr(-,root,root,-)
 %{appdir}/docs
 
 %files javadoc
-%defattr(-,root,root,-)
 %{_javadocdir}/%{name}
 
 %files jsp-%{jspspec}-api -f output/dist/src/res/maven/.mfiles-tomcat-jsp-api
-%defattr(-,root,root,-)
 %{_javadir}/%{name}-jsp-%{jspspec}*.jar
 
 %files lib -f output/dist/src/res/maven/.mfiles-tomcat-lib
-%defattr(-,root,root,-)
 %dir %{libdir}
 %{libdir}/*.jar
 %{_javadir}/*.jar
@@ -678,12 +674,10 @@ fi
 %exclude %{_javadir}/%{name}-jsp-%{jspspec}*.jar
 
 %files servlet-%{servletspec}-api -f output/dist/src/res/maven/.mfiles-tomcat-servlet-api
-%defattr(-,root,root,-)
 %doc LICENSE
 %{_javadir}/%{name}-servlet-%{servletspec}*.jar
 
 %files el-%{elspec}-api -f output/dist/src/res/maven/.mfiles-tomcat-el-api
-%defattr(-,root,root,-)
 %doc LICENSE
 %{_javadir}/%{name}-el-%{elspec}-api.jar
 %{libdir}/%{name}-el-%{elspec}-api.jar
