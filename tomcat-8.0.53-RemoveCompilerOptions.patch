@@ -1,0 +1,34 @@
+--- java/org/apache/jasper/compiler/JDTCompiler.java.orig	2018-07-31 21:23:10.279326398 -0400
++++ java/org/apache/jasper/compiler/JDTCompiler.java	2018-07-31 21:23:27.632253986 -0400
+@@ -340,14 +340,6 @@ public class JDTCompiler extends org.apa
+             } else if(opt.equals("1.8")) {
+                 settings.put(CompilerOptions.OPTION_Source,
+                              CompilerOptions.VERSION_1_8);
+-            // Support old format that was used in EA implementation as well
+-            } else if(opt.equals("9") || opt.equals("1.9")) {
+-                settings.put(CompilerOptions.OPTION_Source,
+-                             JDT_JAVA_9_VERSION);
+-            } else if(opt.equals("10")) {
+-                // Constant not available in latest ECJ version that runs on
+-                // Java 7
+-                settings.put(CompilerOptions.OPTION_Source, "10");
+             } else {
+                 log.warn("Unknown source VM " + opt + " ignored.");
+                 settings.put(CompilerOptions.OPTION_Source,
+@@ -394,16 +386,6 @@ public class JDTCompiler extends org.apa
+                              CompilerOptions.VERSION_1_8);
+                 settings.put(CompilerOptions.OPTION_Compliance,
+                         CompilerOptions.VERSION_1_8);
+-            } else if(opt.equals("9") || opt.equals("1.9")) {
+-                settings.put(CompilerOptions.OPTION_TargetPlatform,
+-                             JDT_JAVA_9_VERSION);
+-                settings.put(CompilerOptions.OPTION_Compliance,
+-                             JDT_JAVA_9_VERSION);
+-            } else if(opt.equals("10")) {
+-                // Constant not available in latest ECJ version that runs on
+-                // Java 7
+-                settings.put(CompilerOptions.OPTION_TargetPlatform, "10");
+-                settings.put(CompilerOptions.OPTION_Compliance, "10");
+             } else {
+                 log.warn("Unknown target VM " + opt + " ignored.");
+                 settings.put(CompilerOptions.OPTION_TargetPlatform,
