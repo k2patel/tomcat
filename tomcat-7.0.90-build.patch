@@ -1,6 +1,6 @@
---- build.xml.orig	2016-06-15 12:45:47.000000000 -0400
-+++ build.xml	2016-07-01 12:01:58.494022657 -0400
-@@ -213,7 +213,7 @@
+--- build.xml.orig	2018-07-31 16:53:30.644130082 -0400
++++ build.xml	2018-07-31 16:56:12.472419607 -0400
+@@ -216,7 +216,7 @@
    <path id="tomcat.webservices.classpath">
      <path refid="tomcat.classpath" />
      <fileset dir="${tomcat.extras}/webservices">
@@ -9,9 +9,9 @@
        <include name="wsdl4j.jar"/>
      </fileset>
    </path>
-@@ -1046,12 +1046,11 @@
+@@ -1056,12 +1056,11 @@
      </copy>
-
+ 
      <!-- Delete all other versions of Eclipse JDT Compiler and copy the current one -->
 -    <local name="jdt.jar.filename" />
 -    <basename property="jdt.jar.filename" file="${jdt.jar}"/>
@@ -24,10 +24,10 @@
        </fileset>
      </delete>
      <copy file="${jdt.jar}" todir="${tomcat.build}/lib"/>
-@@ -1699,8 +1698,8 @@
-       <param name="destdir" value="${wsdl4j-lib.home}"/>
+@@ -1734,8 +1733,8 @@
+       <param name="checksum.value" value="${wsdl4j-lib.checksum.value}"/>
      </antcall>
-
+ 
 -    <copy file="${jaxrpc-lib.jar}"
 -          tofile="${tomcat.extras}/webservices/jaxrpc.jar" />
 +    <!--<copy file="${jaxrpc-lib.jar}"
@@ -35,39 +35,39 @@
      <copy file="${wsdl4j-lib.jar}"
            tofile="${tomcat.extras}/webservices/wsdl4j.jar" />
    </target>
-@@ -2814,7 +2813,7 @@
+@@ -2976,7 +2975,7 @@ Apache Tomcat ${version} native binaries
      <local name="temp.file"/>
      <mkdir dir="${base.path}"/>
      <tempfile property="temp.file" destdir="${base.path}" prefix="download-"/>
 -    <get src="${sourcefile}" httpusecaches="${trydownload.httpusecaches}" dest="${temp.file}.tar.gz" />
 +    <get src="${sourcefile}" dest="${temp.file}.tar.gz" />
-     <gunzip src="${temp.file}.tar.gz" dest="${temp.file}.tar"/>
-     <untar src="${temp.file}.tar" dest="${base.path}"/>
-     <delete file="${temp.file}.tar"/>
-@@ -2845,7 +2844,7 @@
+     <verifyChecksum
+       enabled="${checksum.enabled}"
+       algorithm="${checksum.algorithm}" value="${checksum.value}"
+@@ -3018,7 +3017,7 @@ Apache Tomcat ${version} native binaries
      <local name="temp.file"/>
      <mkdir dir="${base.path}"/>
      <tempfile property="temp.file" destdir="${base.path}" prefix="download-" suffix=".zip"/>
 -    <get src="${sourcefile}" httpusecaches="${trydownload.httpusecaches}" dest="${temp.file}"/>
 +    <get src="${sourcefile}" dest="${temp.file}"/>
-     <mkdir dir="${destdir}"/>
-     <unzip src="${temp.file}" dest="${destdir}"/>
-     <delete file="${temp.file}"/>
-@@ -2874,7 +2873,7 @@
+     <verifyChecksum
+       enabled="${checksum.enabled}"
+       algorithm="${checksum.algorithm}" value="${checksum.value}"
+@@ -3058,7 +3057,7 @@ Apache Tomcat ${version} native binaries
      <local name="temp.file"/>
      <mkdir dir="${base.path}"/>
      <tempfile property="temp.file" destdir="${base.path}" prefix="download-" suffix=".tmp"/>
 -    <get src="${sourcefile}" httpusecaches="${trydownload.httpusecaches}" dest="${temp.file}"/>
 +    <get src="${sourcefile}" dest="${temp.file}"/>
-     <mkdir dir="${destdir}"/>
-     <move file="${temp.file}" tofile="${destfile}"/>
-   </target>
-@@ -2915,7 +2914,7 @@
-
+     <verifyChecksum
+       enabled="${checksum.enabled}"
+       algorithm="${checksum.algorithm}" value="${checksum.value}"
+@@ -3109,7 +3108,7 @@ Apache Tomcat ${version} native binaries
+ 
    <target name="trydownload" if="trydownload.run" depends="trydownload.check">
      <!-- Downloads a file if not yet downloaded and the source URL is available -->
 -    <get src="${sourcefile}" httpusecaches="${trydownload.httpusecaches}" dest="${destfile}" />
 +    <get src="${sourcefile}" dest="${destfile}" />
    </target>
-
+ 
    <!-- ============================ IDE Support ============================ -->
