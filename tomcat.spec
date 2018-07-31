@@ -711,9 +711,6 @@ fi
 
 * Fri Feb 09 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1:8.0.49-2
 - Escape macros in %%changelog
-* Tue Jul 31 2018 Coty Sutherland <csutherl@redhat.com> - 1:9.0.10-1
-- Update to 9.0.10
-
 
 * Thu Feb 01 2018 Coty Sutherland <csutherl@redhat.com> - 1:8.0.49-1
 - Update to 8.0.49
