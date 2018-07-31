@@ -31,7 +31,7 @@
 %global jspspec 2.3
 %global major_version 9
 %global minor_version 0
-%global micro_version 7
+%global micro_version 10
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 4.0
 %global elspec 3.0
@@ -63,7 +63,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       2%{?dist}
+Release:       1%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -695,6 +695,9 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Tue Jul 31 2018 Coty Sutherland <csutherl@redhat.com> - 1:9.0.10-1
+- Update to 9.0.10
+
 * Sat Jul 14 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1:9.0.7-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
@@ -708,6 +711,9 @@ fi
 
 * Fri Feb 09 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1:8.0.49-2
 - Escape macros in %%changelog
+* Tue Jul 31 2018 Coty Sutherland <csutherl@redhat.com> - 1:9.0.10-1
+- Update to 9.0.10
+
 
 * Thu Feb 01 2018 Coty Sutherland <csutherl@redhat.com> - 1:8.0.49-1
 - Update to 8.0.49
