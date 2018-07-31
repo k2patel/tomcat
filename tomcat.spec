@@ -92,7 +92,7 @@ Source32:      tomcat-named.service
 
 Patch0:        %{name}-%{major_version}.%{minor_version}-bootstrap-MANIFEST.MF.patch
 Patch1:        %{name}-%{major_version}.%{minor_version}-tomcat-users-webapp.patch
-Patch2:        %{name}-8.0.36-CompilerOptionsV9.patch
+Patch2:        %{name}-9.0.10-RemoveCompilerOptions.patch
 Patch3:        disableJavadocFailOnWarning.patch
 
 BuildArch:     noarch
