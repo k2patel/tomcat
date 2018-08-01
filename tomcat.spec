@@ -115,6 +115,8 @@ BuildRequires: javapackages-local
 BuildRequires: junit
 BuildRequires: geronimo-jaxrpc
 BuildRequires: geronimo-saaj
+BuildRequires: aqute-bnd
+BuildRequires: aqute-bndlib
 BuildRequires: wsdl4j
 BuildRequires: systemd-units
 
@@ -278,6 +280,8 @@ export OPT_JAR_LIST="xalan-j2-serializer"
       -Djaxrpc-lib.jar="$(build-classpath jaxrpc)" \
       -Dwsdl4j-lib.jar="$(build-classpath wsdl4j)" \
       -Dsaaj-api.jar="$(build-classpath geronimo-saaj)" \
+      -Dbnd.jar="$(build-classpath aqute-bnd/biz.aQute.bnd)" \
+      -Dbndlib.jar="$(build-classpath aqute-bnd/biz.aQute.bndlib)" \
       -Dno.build.dbcp=true \
       -Dversion="%{version}" \
       -Dversion.build="%{micro_version}" \
