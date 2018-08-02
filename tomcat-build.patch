@@ -1,0 +1,12 @@
+Index: build.xml
+===================================================================
+--- build.xml	(revision 1837267)
++++ build.xml	(working copy)
+@@ -3207,6 +3207,7 @@
+     <path id="bndlib.classpath">
+       <fileset file="${bnd.jar}" />
+       <fileset file="${bndlib.jar}" />
++      <fileset file="${bndlibg.jar}" />
+     </path>
+ 
+     <taskdef resource="aQute/bnd/ant/taskdef.properties" classpathref="bndlib.classpath" />
