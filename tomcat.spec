@@ -51,7 +51,6 @@
 %global cachedir %{_var}/cache/%{name}
 %global tempdir %{cachedir}/temp
 %global workdir %{cachedir}/work
-%global _initrddir %{_sysconfdir}/init.d
 %global _systemddir /lib/systemd/system
 
 # Fedora doesn't seem to have this macro, so we define it if it doesn't exist
@@ -63,7 +62,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -119,7 +118,7 @@ BuildRequires: geronimo-saaj
 BuildRequires: aqute-bnd
 BuildRequires: aqute-bndlib
 BuildRequires: wsdl4j
-BuildRequires: systemd-units
+BuildRequires: systemd
 
 Requires:      apache-commons-daemon
 Requires:      apache-commons-collections
@@ -131,11 +130,9 @@ Requires:      procps
 Requires:      %{name}-lib = %{epoch}:%{version}-%{release}
 Recommends:    tomcat-native >= %{native_version}
 Requires(pre):    shadow-utils
-Requires(post):   chkconfig
-Requires(preun):  chkconfig
-Requires(post):   systemd-units
-Requires(preun):  systemd-units
-Requires(postun): systemd-units
+Requires(post):   systemd
+Requires(preun):  systemd
+Requires(postun): systemd
 
 # added after log4j sub-package was removed
 Provides:         %{name}-log4j = %{epoch}:%{version}-%{release}
@@ -192,8 +189,6 @@ Provides: jsp = %{jspspec}
 Obsoletes: %{name}-jsp-2.2-api
 Requires: %{name}-servlet-%{servletspec}-api = %{epoch}:%{version}-%{release}
 Requires: %{name}-el-%{elspec}-api = %{epoch}:%{version}-%{release}
-Requires(post): chkconfig
-Requires(postun): chkconfig
 
 %description jsp-%{jspspec}-api
 Apache Tomcat JSP API Implementation Classes.
@@ -220,8 +215,6 @@ Provides: servlet = %{servletspec}
 Provides: servlet6
 Provides: servlet3
 Obsoletes: %{name}-servlet-3.1-api
-Requires(post): chkconfig
-Requires(postun): chkconfig
 
 %description servlet-%{servletspec}-api
 Apache Tomcat Servlet API Implementation Classes.
@@ -231,8 +224,6 @@ Group: Development/Libraries
 Summary: Apache Tomcat Expression Language v%{elspec} API Implementation Classes
 Provides: el_api = %{elspec}
 Obsoletes: %{name}-el-2.2-api
-Requires(post): chkconfig
-Requires(postun): chkconfig
 
 %description el-%{elspec}-api
 Apache Tomcat EL API Implementation Classes.
@@ -333,7 +324,6 @@ zip output/build/bin/tomcat-juli.jar META-INF/MANIFEST.MF
 %{__install} -d -m 0755 ${RPM_BUILD_ROOT}%{_bindir}
 %{__install} -d -m 0755 ${RPM_BUILD_ROOT}%{_sbindir}
 %{__install} -d -m 0755 ${RPM_BUILD_ROOT}%{_javadocdir}/%{name}
-%{__install} -d -m 0755 ${RPM_BUILD_ROOT}%{_initrddir}
 %{__install} -d -m 0755 ${RPM_BUILD_ROOT}%{_systemddir}
 %{__install} -d -m 0755 ${RPM_BUILD_ROOT}%{_sysconfdir}/logrotate.d
 %{__install} -d -m 0755 ${RPM_BUILD_ROOT}%{_sysconfdir}/sysconfig
@@ -588,12 +578,6 @@ if [ "$1" = "0" ]; then
         %{_javadir}/%{name}-el-%{elspec}-api.jar
 fi
 
-%triggerun -- tomcat < 0:7.0.22-2
-/usr/bin/systemd-sysv-convert -- save tomcat > /dev/null 2>&1 || :
-# Run these becasue the SysV package being removed won't do them
-/sbin/chkconfig --del tomcat > /dev/null 2>&1 || :
-/bin/systemctl try-restart tomcat.service > /dev/null 2>&1 || :
-
 %files 
 %defattr(0664,root,tomcat,0755)
 %doc {LICENSE,NOTICE,RELEASE*}
@@ -706,6 +690,9 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Sun Oct 14 2018 Peter Robinson <pbrobinson@fedoraproject.org> 1:9.0.10-2
+- Drop legcy sys-v bits
+
 * Tue Jul 31 2018 Coty Sutherland <csutherl@redhat.com> - 1:9.0.10-1
 - Update to 9.0.10
 
