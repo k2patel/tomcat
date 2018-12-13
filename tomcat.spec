@@ -641,9 +641,13 @@ fi
 %changelog
 * Thu Dec 13 2018 Coty Sutherland <csutherl@redhat.com> - 1:7.0.92-1
 - Update to 7.0.92
+- Resolves: rhbz#1636513 - CVE-2018-11784 tomcat: Open redirect in default servlet
 
 * Tue Jul 31 2018 Coty Sutherland <csutherl@redhat.com> - 1:7.0.90-1
 - Update to 7.0.90
+- Resolves: rhbz#1607586 - CVE-2018-8034 tomcat: host name verification missing in WebSocket client
+- Resolves: rhbz#1579612 - CVE-2018-8014 tomcat: Insecure defaults in CORS filter enable 'supportsCredentials' for all origins
+- Resolves: rhbz#1624929 - CVE-2018-1336 tomcat: A bug in the UTF-8 decoder can lead to DoS
 
 * Tue May 01 2018 Coty Sutherland <csutherl@redhat.com> - 1:7.0.86-1
 - Update to 7.0.86
