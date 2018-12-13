@@ -31,7 +31,7 @@
 %global jspspec 2.3
 %global major_version 9
 %global minor_version 0
-%global micro_version 10
+%global micro_version 13
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 4.0
 %global elspec 3.0
@@ -706,6 +706,9 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Thu Dec 13 2018 Coty Sutherland <csutherl@redhat.com> - 1:9.0.13-1
+- Update to 9.0.13
+
 * Tue Jul 31 2018 Coty Sutherland <csutherl@redhat.com> - 1:9.0.10-1
 - Update to 9.0.10
 
