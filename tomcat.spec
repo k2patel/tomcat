@@ -65,7 +65,6 @@ Version:       %{major_version}.%{minor_version}.%{micro_version}
 Release:       1%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
-Group:         System Environment/Daemons
 License:       ASL 2.0
 URL:           http://tomcat.apache.org/
 Source0:       http://www.apache.org/dist/tomcat/tomcat-%{major_version}/v%{version}/src/%{packdname}.tar.gz
@@ -148,7 +147,6 @@ released under the Apache Software License version 2.0. Tomcat is intended
 to be a collaboration of the best-of-breed developers from around the world.
 
 %package admin-webapps
-Group: Applications/System
 Summary: The host-manager and manager web applications for Apache Tomcat
 Requires: %{name} = %{epoch}:%{version}-%{release}
 
@@ -156,7 +154,6 @@ Requires: %{name} = %{epoch}:%{version}-%{release}
 The host-manager and manager web applications for Apache Tomcat.
 
 %package docs-webapp
-Group: Applications/Text
 Summary: The docs web application for Apache Tomcat
 Requires: %{name} = %{epoch}:%{version}-%{release}
 
@@ -164,7 +161,6 @@ Requires: %{name} = %{epoch}:%{version}-%{release}
 The docs web application for Apache Tomcat.
 
 %package javadoc
-Group: Documentation
 Summary: Javadoc generated documentation for Apache Tomcat
 Requires: jpackage-utils
 
@@ -172,7 +168,6 @@ Requires: jpackage-utils
 Javadoc generated documentation for Apache Tomcat.
 
 %package jsvc
-Group: System Environment/Daemons
 Summary: Apache jsvc wrapper for Apache Tomcat as separate service
 Requires: %{name} = %{epoch}:%{version}-%{release}
 Requires: apache-commons-daemon-jsvc
@@ -183,7 +178,6 @@ which allows tomcat to perform some privileged operations
 (e.g. bind to a port < 1024) and then switch identity to a non-privileged user.
 
 %package jsp-%{jspspec}-api
-Group: Development/Libraries
 Summary: Apache Tomcat JavaServer Pages v%{jspspec} API Implementation Classes
 Provides: jsp = %{jspspec}
 Obsoletes: %{name}-jsp-2.2-api
@@ -194,7 +188,6 @@ Requires: %{name}-el-%{elspec}-api = %{epoch}:%{version}-%{release}
 Apache Tomcat JSP API Implementation Classes.
 
 %package lib
-Group: Development/Libraries
 Summary: Libraries needed to run the Tomcat Web container
 Requires: %{name}-jsp-%{jspspec}-api = %{epoch}:%{version}-%{release}
 Requires: %{name}-servlet-%{servletspec}-api = %{epoch}:%{version}-%{release}
@@ -209,7 +202,6 @@ Requires(preun): coreutils
 Libraries needed to run the Tomcat Web container.
 
 %package servlet-%{servletspec}-api
-Group: Development/Libraries
 Summary: Apache Tomcat Java Servlet v%{servletspec} API Implementation Classes
 Provides: servlet = %{servletspec}
 Provides: servlet6
@@ -220,7 +212,6 @@ Obsoletes: %{name}-servlet-3.1-api
 Apache Tomcat Servlet API Implementation Classes.
 
 %package el-%{elspec}-api
-Group: Development/Libraries
 Summary: Apache Tomcat Expression Language v%{elspec} API Implementation Classes
 Provides: el_api = %{elspec}
 Obsoletes: %{name}-el-2.2-api
@@ -229,7 +220,6 @@ Obsoletes: %{name}-el-2.2-api
 Apache Tomcat EL API Implementation Classes.
 
 %package webapps
-Group: Applications/Internet
 Summary: The ROOT and examples web applications for Apache Tomcat
 Requires: %{name} = %{epoch}:%{version}-%{release}
 Requires: tomcat-taglibs-standard >= 0:1.1
