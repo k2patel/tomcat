@@ -74,14 +74,7 @@ Source4:       %{name}-%{major_version}.%{minor_version}.wrapper
 Source5:       %{name}-%{major_version}.%{minor_version}.logrotate
 Source6:       %{name}-%{major_version}.%{minor_version}-digest.script
 Source7:       %{name}-%{major_version}.%{minor_version}-tool-wrapper.script
-Source8:       servlet-api-OSGi-MANIFEST.MF
-Source9:       jsp-api-OSGi-MANIFEST.MF
 Source11:      %{name}-%{major_version}.%{minor_version}.service
-Source12:      el-api-OSGi-MANIFEST.MF
-Source13:      jasper-el-OSGi-MANIFEST.MF
-Source14:      jasper-OSGi-MANIFEST.MF
-Source15:      tomcat-api-OSGi-MANIFEST.MF
-Source16:      tomcat-juli-OSGi-MANIFEST.MF
 Source20:      %{name}-%{major_version}.%{minor_version}-jsvc.service
 Source21:      tomcat-functions
 Source30:      tomcat-preamble
@@ -284,30 +277,6 @@ pushd ../web
 %{jar} cf ../../../../../../../../output/build/webapps/docs/appdev/sample/sample.war *
 popd
 popd
-
-# inject OSGi manifests
-mkdir -p META-INF
-cp -p %{SOURCE8} META-INF/MANIFEST.MF
-touch META-INF/MANIFEST.MF
-zip output/build/lib/servlet-api.jar META-INF/MANIFEST.MF
-cp -p %{SOURCE9} META-INF/MANIFEST.MF
-touch META-INF/MANIFEST.MF
-zip output/build/lib/jsp-api.jar META-INF/MANIFEST.MF
-cp -p %{SOURCE12} META-INF/MANIFEST.MF
-touch META-INF/MANIFEST.MF
-zip output/build/lib/el-api.jar META-INF/MANIFEST.MF
-cp -p %{SOURCE13} META-INF/MANIFEST.MF
-touch META-INF/MANIFEST.MF
-zip output/build/lib/jasper-el.jar META-INF/MANIFEST.MF
-cp -p %{SOURCE14} META-INF/MANIFEST.MF
-touch META-INF/MANIFEST.MF
-zip output/build/lib/jasper.jar META-INF/MANIFEST.MF
-cp -p %{SOURCE15} META-INF/MANIFEST.MF
-touch META-INF/MANIFEST.MF
-zip output/build/lib/tomcat-api.jar META-INF/MANIFEST.MF
-cp -p %{SOURCE16} META-INF/MANIFEST.MF
-touch META-INF/MANIFEST.MF
-zip output/build/bin/tomcat-juli.jar META-INF/MANIFEST.MF
 
 %install
 # build initial path structure
@@ -680,6 +649,9 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Wed Feb 20 2019 Coty Sutherland <csutherl@redhat.com> - 1:9.0.13-3
+- Remove OSGi MANIFEST files, these are now included in the upstream Tomcat distribution (as of 9.0.10)
+
 * Sun Feb 03 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1:9.0.13-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
