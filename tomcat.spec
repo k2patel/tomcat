@@ -93,8 +93,6 @@ BuildRequires: ant
 BuildRequires: ecj >= 1:4.6.1
 BuildRequires: findutils
 BuildRequires: apache-commons-daemon
-BuildRequires: apache-commons-dbcp
-BuildRequires: apache-commons-pool
 BuildRequires: tomcat-taglibs-standard
 BuildRequires: java-devel >= 1:1.8.0
 BuildRequires: jpackage-utils >= 0:1.7.0
@@ -112,8 +110,6 @@ BuildRequires: wsdl4j
 BuildRequires: systemd
 
 Requires:      apache-commons-daemon
-Requires:      apache-commons-dbcp
-Requires:      apache-commons-pool
 Requires:      java-headless >= 1:1.8.0
 Requires:      jpackage-utils
 Requires:      procps
@@ -184,8 +180,6 @@ Requires: %{name}-jsp-%{jspspec}-api = %{epoch}:%{version}-%{release}
 Requires: %{name}-servlet-%{servletspec}-api = %{epoch}:%{version}-%{release}
 Requires: %{name}-el-%{elspec}-api = %{epoch}:%{version}-%{release}
 Requires: ecj >= 1:4.6.1
-Requires: apache-commons-dbcp
-Requires: apache-commons-pool
 Requires(preun): coreutils
 
 %description lib
@@ -361,7 +355,7 @@ pushd ${RPM_BUILD_ROOT}%{_javadir}
 popd
 
 pushd output/build
-    %{_bindir}/build-jar-repository lib apache-commons-dbcp apache-commons-pool ecj 2>&1
+    %{_bindir}/build-jar-repository lib ecj 2>&1
     # need to use -p here with b-j-r otherwise the examples webapp fails to
     # load with a java.io.IOException
     %{_bindir}/build-jar-repository -p webapps/examples/WEB-INF/lib \
@@ -373,8 +367,6 @@ pushd ${RPM_BUILD_ROOT}%{libdir}
     %{__ln_s} ../../java/%{name}-jsp-%{jspspec}-api.jar .
     %{__ln_s} ../../java/%{name}-servlet-%{servletspec}-api.jar .
     %{__ln_s} ../../java/%{name}-el-%{elspec}-api.jar .
-    %{__ln_s} $(build-classpath apache-commons-dbcp) commons-dbcp.jar
-    %{__ln_s} $(build-classpath apache-commons-pool) commons-pool.jar
     %{__ln_s} $(build-classpath ecj) jasper-jdt.jar
 
     # Temporary copy the juli jar here from /usr/share/java/tomcat (for maven depmap)
