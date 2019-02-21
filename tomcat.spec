@@ -637,6 +637,7 @@ fi
 %changelog
 * Wed Feb 20 2019 Coty Sutherland <csutherl@redhat.com> - 1:9.0.13-3
 - Remove OSGi MANIFEST files, these are now included in the upstream Tomcat distribution (as of 9.0.10)
+- Remove unused dependencies, apache-commons-collections, apache-commons-daemon, apache-commons-pool
 
 * Sun Feb 03 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1:9.0.13-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
