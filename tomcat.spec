@@ -101,7 +101,6 @@ BuildRequires: jpackage-utils >= 0:1.7.0
 # See https://fedora-java.github.io/howto/latest/#_add_maven_depmap_macro
 BuildRequires: javapackages-local
 %endif
-BuildRequires: junit
 BuildRequires: geronimo-jaxrpc
 BuildRequires: geronimo-saaj
 BuildRequires: aqute-bnd
@@ -637,7 +636,7 @@ fi
 %changelog
 * Wed Feb 20 2019 Coty Sutherland <csutherl@redhat.com> - 1:9.0.13-3
 - Remove OSGi MANIFEST files, these are now included in the upstream Tomcat distribution (as of 9.0.10)
-- Remove unused dependencies, apache-commons-collections, apache-commons-daemon, apache-commons-pool
+- Remove unused dependencies, apache-commons-collections, apache-commons-daemon, apache-commons-pool, junit
 
 * Sun Feb 03 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1:9.0.13-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
