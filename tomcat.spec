@@ -250,12 +250,9 @@ export OPT_JAR_LIST="xalan-j2-serializer"
       -Dbndlibg.jar="$(build-classpath aqute-bnd/aQute.libg)" \
       -Dbndannotation.jar="$(build-classpath aqute-bnd/biz.aQute.bnd.annotation)" \
       -Dslf4j-api.jar="$(build-classpath slf4j/slf4j-api)" \
-      -Dno.build.dbcp=true \
       -Dversion="%{version}" \
       -Dversion.build="%{micro_version}" \
-      -Djava.7.home=%{java_home} \
-      -Dexecute.validate=false \
-      deploy dist-prepare dist-source javadoc
+      deploy javadoc
 
     # remove some jars that we'll replace with symlinks later
     %{__rm} output/build/bin/commons-daemon.jar output/build/lib/ecj.jar
