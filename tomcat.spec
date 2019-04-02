@@ -62,7 +62,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       3%{?dist}
+Release:       4%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 License:       ASL 2.0
@@ -95,7 +95,6 @@ BuildRequires: findutils
 BuildRequires: apache-commons-daemon
 BuildRequires: tomcat-taglibs-standard
 BuildRequires: java-devel >= 1:1.8.0
-BuildRequires: jpackage-utils >= 0:1.7.0
 %if 0%{?fedora} >= 27 || 0%{?rhel} > 7
 # add_maven_depmap is deprecated, using javapackages-local for now
 # See https://fedora-java.github.io/howto/latest/#_add_maven_depmap_macro
@@ -110,7 +109,6 @@ BuildRequires: systemd
 
 Requires:      apache-commons-daemon
 Requires:      java-headless >= 1:1.8.0
-Requires:      jpackage-utils
 Requires:      procps
 Requires:      %{name}-lib = %{epoch}:%{version}-%{release}
 Recommends:    tomcat-native >= %{native_version}
@@ -145,13 +143,6 @@ Requires: %{name} = %{epoch}:%{version}-%{release}
 
 %description docs-webapp
 The docs web application for Apache Tomcat.
-
-%package javadoc
-Summary: Javadoc generated documentation for Apache Tomcat
-Requires: jpackage-utils
-
-%description javadoc
-Javadoc generated documentation for Apache Tomcat.
 
 %package jsvc
 Summary: Apache jsvc wrapper for Apache Tomcat as separate service
@@ -252,7 +243,7 @@ export OPT_JAR_LIST="xalan-j2-serializer"
       -Dslf4j-api.jar="$(build-classpath slf4j/slf4j-api)" \
       -Dversion="%{version}" \
       -Dversion.build="%{micro_version}" \
-      deploy javadoc
+      deploy
 
     # remove some jars that we'll replace with symlinks later
     %{__rm} output/build/bin/commons-daemon.jar output/build/lib/ecj.jar
@@ -268,7 +259,6 @@ popd
 # build initial path structure
 %{__install} -d -m 0755 ${RPM_BUILD_ROOT}%{_bindir}
 %{__install} -d -m 0755 ${RPM_BUILD_ROOT}%{_sbindir}
-%{__install} -d -m 0755 ${RPM_BUILD_ROOT}%{_javadocdir}/%{name}
 %{__install} -d -m 0755 ${RPM_BUILD_ROOT}%{_systemddir}
 %{__install} -d -m 0755 ${RPM_BUILD_ROOT}%{_sysconfdir}/logrotate.d
 %{__install} -d -m 0755 ${RPM_BUILD_ROOT}%{_sysconfdir}/sysconfig
@@ -296,8 +286,6 @@ pushd output/build
     %{__cp} -a lib/*.jar ${RPM_BUILD_ROOT}%{libdir}
     %{__cp} -a webapps/* ${RPM_BUILD_ROOT}%{appdir}
 popd
-# javadoc
-%{__cp} -a output/dist/webapps/docs/api/* ${RPM_BUILD_ROOT}%{_javadocdir}/%{name}
 
 %{__sed} -e "s|\@\@\@TCHOME\@\@\@|%{homedir}|g" \
    -e "s|\@\@\@TCTEMP\@\@\@|%{tempdir}|g" \
@@ -578,9 +566,6 @@ fi
 %files docs-webapp
 %{appdir}/docs
 
-%files javadoc
-%{_javadocdir}/%{name}
-
 %files jsp-%{jspspec}-api -f output/dist/src/res/maven/.mfiles-tomcat-jsp-api
 %{_javadir}/%{name}-jsp-%{jspspec}*.jar
 
@@ -631,6 +616,9 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Tue Apr 02 2019 Coty Sutherland <csutherl@redhat.com> - 1:9.0.13-4
+- Remove javadoc subpackage to drop the jpackage-utils dependency
+
 * Wed Feb 20 2019 Coty Sutherland <csutherl@redhat.com> - 1:9.0.13-3
 - Remove OSGi MANIFEST files, these are now included in the upstream Tomcat distribution (as of 9.0.10)
 - Remove unused dependencies, apache-commons-collections, apache-commons-daemon, apache-commons-pool, junit
