@@ -243,7 +243,7 @@ export OPT_JAR_LIST="xalan-j2-serializer"
       -Dslf4j-api.jar="$(build-classpath slf4j/slf4j-api)" \
       -Dversion="%{version}" \
       -Dversion.build="%{micro_version}" \
-      deploy
+      deploy dist-source
 
     # remove some jars that we'll replace with symlinks later
     %{__rm} output/build/bin/commons-daemon.jar output/build/lib/ecj.jar
