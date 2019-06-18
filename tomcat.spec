@@ -80,14 +80,12 @@ Source32:      tomcat-named.service
 
 Patch0:        %{name}-%{major_version}.%{minor_version}-bootstrap-MANIFEST.MF.patch
 Patch1:        %{name}-%{major_version}.%{minor_version}-tomcat-users-webapp.patch
-Patch2:        %{name}-9.0.10-RemoveCompilerOptions.patch
-Patch3:        disableJavadocFailOnWarning.patch
-Patch4:        %{name}-build.patch
+Patch2:        %{name}-build.patch
 
 BuildArch:     noarch
 
 BuildRequires: ant
-BuildRequires: ecj >= 1:4.6.1
+BuildRequires: ecj >= 1:4.10
 BuildRequires: findutils
 BuildRequires: apache-commons-daemon
 BuildRequires: tomcat-taglibs-standard
@@ -166,7 +164,7 @@ Summary: Libraries needed to run the Tomcat Web container
 Requires: %{name}-jsp-%{jspspec}-api = %{epoch}:%{version}-%{release}
 Requires: %{name}-servlet-%{servletspec}-api = %{epoch}:%{version}-%{release}
 Requires: %{name}-el-%{elspec}-api = %{epoch}:%{version}-%{release}
-Requires: ecj >= 1:4.6.1
+Requires: ecj >= 1:4.10
 Requires(preun): coreutils
 
 %description lib
@@ -207,8 +205,6 @@ find . -type f \( -name "*.bat" -o -name "*.class" -o -name Thumbs.db -o -name "
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
-%patch3 -p0
-%patch4 -p0
 
 %{__ln_s} $(build-classpath tomcat-taglibs-standard/taglibs-standard-impl) webapps/examples/WEB-INF/lib/jstl.jar
 %{__ln_s} $(build-classpath tomcat-taglibs-standard/taglibs-standard-compat) webapps/examples/WEB-INF/lib/standard.jar
