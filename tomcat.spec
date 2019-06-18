@@ -95,10 +95,7 @@ BuildRequires: ant-nodeps
 BuildRequires: ant-trax
 BuildRequires: ecj
 BuildRequires: findutils
-BuildRequires: jakarta-commons-collections
 BuildRequires: jakarta-commons-daemon
-BuildRequires: jakarta-commons-dbcp
-BuildRequires: jakarta-commons-pool
 BuildRequires: jakarta-taglibs-standard
 BuildRequires: java7-devel >= 1:1.7.0
 BuildRequires: jpackage-utils >= 0:1.7.0
@@ -107,10 +104,6 @@ BuildRequires: log4j
 BuildRequires: wsdl4j
 
 Requires:      jakarta-commons-daemon
-Requires:      jakarta-commons-logging
-Requires:      jakarta-commons-collections
-Requires:      jakarta-commons-dbcp
-Requires:      jakarta-commons-pool
 Requires:      java >= 1:1.6.0
 Requires:      procps
 Requires:      %{name}-lib = %{epoch}:%{version}-%{release}
@@ -186,9 +179,6 @@ Requires: %{name}-jsp-%{jspspec}-api = %{epoch}:%{version}-%{release}
 Requires: %{name}-servlet-%{servletspec}-api = %{epoch}:%{version}-%{release}
 Requires: %{name}-el-%{elspec}-api = %{epoch}:%{version}-%{release}
 Requires: ecj
-Requires: jakarta-commons-collections
-Requires: jakarta-commons-dbcp
-Requires: jakarta-commons-pool
 Requires(preun): coreutils
 
 %description lib
@@ -243,30 +233,21 @@ find . -type f \( -name "*.bat" -o -name "*.class" -o -name Thumbs.db -o -name "
 
 %build
 export OPT_JAR_LIST="ant/ant-trax ant/ant-nodeps xalan-j2-serializer"
-   # we don't care about the tarballs and we're going to replace
-   # tomcat-dbcp.jar with jakarta-commons-{collections,dbcp,pool}-tomcat5.jar
-   # so just create a dummy file for later removal
    touch HACK
    %{__mkdir_p} HACKDIR
    touch HACKDIR/build.xml
    # who needs a build.properties file anyway
    %{ant} -Dbase.path="." \
       -Dbuild.compiler="modern" \
-      -Dcommons-collections.jar="$(build-classpath jakarta-commons-collections)" \
       -Dcommons-daemon.jar="$(build-classpath jakarta-commons-daemon)" \
       -Dcommons-daemon.native.src.tgz="HACK" \
-      -Djasper-jdt.jar="$(build-classpath ecj)" \
       -Djdt.jar="$(build-classpath ecj)" \
-      -Dtomcat-dbcp.jar="$(build-classpath jakarta-commons-dbcp)" \
       -Dtomcat-native.tar.gz="HACK" \
       -Dtomcat-native.home="." \
       -Dcommons-daemon.native.win.mgr.exe="HACK" \
       -Dnsis.exe="HACK" \
       -Djaxrpc-lib.jar="HACK" \
       -Dwsdl4j-lib.jar="$(build-classpath wsdl4j)" \
-      -Dcommons-pool.home="HACKDIR" \
-      -Dcommons-dbcp.home="HACKDIR" \
-      -Dno.build.dbcp=true \
       -Dversion="%{version}" \
       -Dversion.build="%{micro_version}" \
       -Djava.7.home=%{java_home} \
@@ -274,8 +255,7 @@ export OPT_JAR_LIST="ant/ant-trax ant/ant-nodeps xalan-j2-serializer"
 
     # remove some jars that we'll replace with symlinks later
    %{__rm} output/build/bin/commons-daemon.jar \
-           output/build/lib/ecj.jar \
-           output/build/lib/jakarta-commons-dbcp.jar
+           output/build/lib/ecj.jar
 
 pushd output/dist/src/webapps/docs/appdev/sample/src
 %{__mkdir_p} ../web/WEB-INF/classes
@@ -289,25 +269,25 @@ popd
 mkdir -p META-INF
 cp -p %{SOURCE8} META-INF/MANIFEST.MF
 touch META-INF/MANIFEST.MF
-zip -u output/build/lib/servlet-api.jar META-INF/MANIFEST.MF
+zip output/build/lib/servlet-api.jar META-INF/MANIFEST.MF
 cp -p %{SOURCE9} META-INF/MANIFEST.MF
 touch META-INF/MANIFEST.MF
-zip -u output/build/lib/jsp-api.jar META-INF/MANIFEST.MF
+zip output/build/lib/jsp-api.jar META-INF/MANIFEST.MF
 cp -p %{SOURCE11} META-INF/MANIFEST.MF
 touch META-INF/MANIFEST.MF
-zip -u output/build/lib/el-api.jar META-INF/MANIFEST.MF
+zip output/build/lib/el-api.jar META-INF/MANIFEST.MF
 cp -p %{SOURCE12} META-INF/MANIFEST.MF
 touch META-INF/MANIFEST.MF
-zip -u output/build/lib/jasper-el.jar META-INF/MANIFEST.MF
+zip output/build/lib/jasper-el.jar META-INF/MANIFEST.MF
 cp -p %{SOURCE13} META-INF/MANIFEST.MF
 touch META-INF/MANIFEST.MF
-zip -u output/build/lib/jasper.jar META-INF/MANIFEST.MF
+zip output/build/lib/jasper.jar META-INF/MANIFEST.MF
 cp -p %{SOURCE14} META-INF/MANIFEST.MF
 touch META-INF/MANIFEST.MF
-zip -u output/build/lib/tomcat-api.jar META-INF/MANIFEST.MF
+zip output/build/lib/tomcat-api.jar META-INF/MANIFEST.MF
 cp -p %{SOURCE15} META-INF/MANIFEST.MF
 touch META-INF/MANIFEST.MF
-zip -u output/build/bin/tomcat-juli.jar META-INF/MANIFEST.MF
+zip output/build/bin/tomcat-juli.jar META-INF/MANIFEST.MF
 
 %install
 # build initial path structure
@@ -379,8 +359,7 @@ pushd ${RPM_BUILD_ROOT}%{_javadir}
 popd
 
 pushd output/build
-    %{_bindir}/build-jar-repository lib jakarta-commons-collections \
-                                        jakarta-commons-dbcp jakarta-commons-pool ecj 2>&1
+    %{_bindir}/build-jar-repository lib ecj 2>&1
     # need to use -p here with b-j-r otherwise the examples webapp fails to
     # load with a java.io.IOException
     %{_bindir}/build-jar-repository -p webapps/examples/WEB-INF/lib \
@@ -392,8 +371,6 @@ pushd ${RPM_BUILD_ROOT}%{libdir}
     %{__ln_s} ../%{name}-jsp-%{jspspec}-api.jar .
     %{__ln_s} ../%{name}-servlet-%{servletspec}-api.jar .
     %{__ln_s} ../%{name}-el-%{elspec}-api.jar .
-    %{__ln_s} $(build-classpath jakarta-commons-collections) commons-collections.jar
-    %{__ln_s} $(build-classpath jakarta-commons-dbcp) commons-dbcp.jar
     %{__ln_s} $(build-classpath log4j) log4j.jar
     %{__ln_s} $(build-classpath ecj) jasper-jdt.jar
 
