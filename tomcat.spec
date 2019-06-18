@@ -31,13 +31,13 @@
 %global jspspec 2.3
 %global major_version 9
 %global minor_version 0
-%global micro_version 13
+%global micro_version 21
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 4.0
 %global elspec 3.0
 %global tcuid 91
 # Recommended version is specified in java/org/apache/catalina/core/AprLifecycleListener.java
-%global native_version 1.2.14
+%global native_version 1.2.21
 
 
 # FHS 2.3 compliant tree structure - http://www.pathname.com/fhs/2.3/
@@ -62,7 +62,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       4%{?dist}
+Release:       1%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 License:       ASL 2.0
@@ -616,6 +616,9 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Tue Jun 18 2019 Coty Sutherland <csutherl@redhat.com> - 1:9.0.21-1
+- Update to 9.0.21
+
 * Tue Apr 02 2019 Coty Sutherland <csutherl@redhat.com> - 1:9.0.13-4
 - Remove javadoc subpackage to drop the jpackage-utils dependency
 
