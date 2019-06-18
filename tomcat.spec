@@ -55,9 +55,6 @@
 
 # Fedora doesn't seem to have this macro, so we define it if it doesn't exist
 %{!?_mavendepmapfragdir: %global _mavendepmapfragdir /usr/share/maven-metadata}
-# Fedora 24 erroneously uses %%{_datadir}/maven-fragments instead of /maven-metadata for some reason...
-# Override the mavendepmapfragdir var on fc24
-%{?fc24: %global _mavendepmapfragdir /usr/share/maven-metadata}
 
 Name:          tomcat
 Epoch:         1
