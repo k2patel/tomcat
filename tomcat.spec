@@ -31,7 +31,7 @@
 %global jspspec 2.2
 %global major_version 7
 %global minor_version 0
-%global micro_version 92
+%global micro_version 94
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.0
 %global elspec 2.2
@@ -81,7 +81,7 @@ Source16:      %{name}-%{major_version}.%{minor_version}-jsvc.wrapper
 Patch0:        %{name}-%{major_version}.%{minor_version}-bootstrap-MANIFEST.MF.patch
 Patch1:        %{name}-%{major_version}.%{minor_version}-tomcat-users-webapp.patch
 # Adding patch to remove java 1.8 compiler options due to outdated ecj version in el6
-Patch2:        %{name}-7.0.90-RemoveCompilerOptions.patch
+Patch2:        %{name}-7.0.94-RemoveCompilerOptions.patch
 # Adding patch to remove unsupport ant tasks/attributes
 Patch3:        %{name}-7.0.90-build.patch
 Patch4:        %{name}-7.0-catalina-policy.patch
@@ -639,6 +639,10 @@ fi
 %{_sbindir}/%{name}-jsvc
 
 %changelog
+* Tue Jun 18 2019 Coty Sutherland <csutherl@redhat.com> - 1:7.0.94-1
+- Update to 7.0.94
+- Resolves: rhbz#1713280 - CVE-2019-0221 tomcat: XSS in SSI printenv
+
 * Thu Dec 13 2018 Coty Sutherland <csutherl@redhat.com> - 1:7.0.92-1
 - Update to 7.0.92
 - Resolves: rhbz#1636513 - CVE-2018-11784 tomcat: Open redirect in default servlet
