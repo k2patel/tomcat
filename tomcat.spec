@@ -106,7 +106,7 @@ Requires:      apache-commons-daemon
 Requires:      java-headless >= 1:1.8.0
 Requires:      procps
 Requires:      %{name}-lib = %{epoch}:%{version}-%{release}
-Recommends:    tomcat-native >= %{native_version}
+Requires:      tomcat-native >= %{native_version}
 Requires(pre):    shadow-utils
 Requires(post):   systemd
 Requires(preun):  systemd
